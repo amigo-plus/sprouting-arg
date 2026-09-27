@@ -268,7 +268,7 @@ import Layout from '../../layouts/Layout.astro';
       const img = document.createElement("img");
       img.src = msg.src;
       img.alt = msg.alt || "画像";
-      setupImageModal(img); // 画像クリックイベントを適用
+      setupImageModal(img);
       imgBubble.appendChild(img);
       msgRow.appendChild(imgBubble);
       if (sidebarPreview) sidebarPreview.textContent = "[画像]";

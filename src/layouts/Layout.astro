@@ -27,7 +27,6 @@ const { title } = Astro.props;
       flex-direction: column;
     }
 
-    /* フローティングボタン & サイドパネル */
     .custom-floating-btn {
       position: fixed;
       bottom: 24px;
@@ -45,7 +44,7 @@ const { title } = Astro.props;
       z-index: 9995;
     }
 
-    .custom-side-panel {
+        .custom-side-panel {
       position: fixed;
       top: 16px; right: 16px; bottom: 16px;
       width: 320px;
@@ -55,15 +54,25 @@ const { title } = Astro.props;
       z-index: 9998;
       display: flex;
       flex-direction: column;
+      overflow: hidden;
       transform: translateX(120%);
       transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .custom-side-panel.open { transform: translateX(0); }
 
+    /* 2つのビューは、片方だけ表示する。スライドはしない、単純な切り替え */
+    .panel-view {
+      display: none;
+      flex-direction: column;
+      height: 100%;
+    }
+    .panel-view.active { display: flex; }
+
     .panel-header {
       padding: 16px 20px;
       border-bottom: 1px solid #f1f3f4;
       display: flex; justify-content: space-between; align-items: center;
+      flex-shrink: 0;
     }
     .panel-title { font-weight: bold; font-size: 1rem; }
     .panel-subtitle { font-size: 0.75rem; color: #80868b; margin-top: 2px; }
@@ -90,39 +99,6 @@ const { title } = Astro.props;
     }
     .panel-backdrop.open { opacity: 1; pointer-events: auto; }
 
-    /* 発見ページメモ用モーダル */
-    .page-list-popup {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      background: rgba(0,0,0,0.4);
-      z-index: 999999;
-      display: none;
-      align-items: center;
-      justify-content: center;
-    }
-    .page-list-popup.is-open { display: flex; }
-
-    .page-list-box {
-      background: #fff;
-      border-radius: 16px;
-      width: 90%;
-      max-width: 420px;
-      max-height: 80vh;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-    .page-list-header {
-      padding: 16px 20px;
-      border-bottom: 1px solid #f1f3f4;
-      display: flex; justify-content: space-between; align-items: center;
-    }
-    .page-list-body {
-      flex: 1;
-      overflow-y: auto;
-      padding: 12px 16px;
-    }
     .memo-item {
       display: flex;
       align-items: baseline;
@@ -140,24 +116,8 @@ const { title } = Astro.props;
 </head>
 <body>
 
-  <!-- メインコンテンツ -->
   <slot />
 
-  <!-- 発見ページメモ モーダル -->
-  <div class="page-list-popup" id="pageListPopup">
-    <div class="page-list-box">
-      <div class="page-list-header">
-        <div>
-          <div class="panel-title">発見ページメモ</div>
-          <div class="panel-subtitle">壁打ちメモ</div>
-        </div>
-        <button id="pageListCloseBtn" class="panel-close-btn" type="button">✕</button>
-      </div>
-      <div class="page-list-body" id="pageListBody"></div>
-    </div>
-  </div>
-
-  <!-- 右下フローティングボタン & サイドパネル -->
   <button id="customMenuBtn" class="custom-floating-btn" type="button" title="メニュー">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="#5f6368">
       <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
@@ -167,34 +127,45 @@ const { title } = Astro.props;
   <div id="customBackdrop" class="panel-backdrop"></div>
 
   <div id="customSidePanel" class="custom-side-panel">
-    <div class="panel-header">
-      <span class="panel-title">メニュー / ツール</span>
-      <button id="panelCloseBtn" class="panel-close-btn" type="button">✕</button>
+    <!-- ビュー1: メニュー(最初はこちらがactive) -->
+    <div class="panel-view active" id="menuView">
+      <div class="panel-header">
+        <span class="panel-title">メニュー</span>
+        <button id="panelCloseBtn" class="panel-close-btn" type="button">✕</button>
+      </div>
+      <div class="panel-body">
+        <button id="menuOpenPageList" class="panel-menu-item" type="button">
+          <span class="panel-menu-icon">📋</span>
+          <span>発見ページ一覧</span>
+        </button>
+
+        <a href="/" class="panel-menu-item">
+          <span class="panel-menu-icon">🔍</span>
+          <span>トップ（検索）に戻る</span>
+        </a>
+
+        <button id="menuResetProgress" class="panel-menu-item" type="button" style="color: #d93025;">
+          <span class="panel-menu-icon">🔄</span>
+          <span>進行状況をリセット</span>
+        </button>
+      </div>
     </div>
-    <div class="panel-body">
-      <button id="menuOpenPageList" class="panel-menu-item" type="button">
-        <span class="panel-menu-icon">📋</span>
-        <span>発見ページメモ（ページ一覧）</span>
-      </button>
 
-      <a href="/" class="panel-menu-item">
-        <span class="panel-menu-icon">🔍</span>
-        <span>トップ（検索）に戻る</span>
-      </a>
-
-      <button id="menuResetProgress" class="panel-menu-item" type="button" style="color: #d93025;">
-        <span class="panel-menu-icon">🔄</span>
-        <span>進行状況をリセット</span>
-      </button>
+    <!-- ビュー2: 発見ページ一覧(最初は非表示) -->
+    <div class="panel-view" id="listView">
+      <div class="panel-header">
+        <button id="backToMenuBtn" class="panel-close-btn" type="button">←</button>
+        <div style="text-align:center;">
+          <div class="panel-title">発見ページメモ</div>
+          <div class="panel-subtitle">履歴</div>
+        </div>
+        <button id="listCloseBtn" class="panel-close-btn" type="button">✕</button>
+      </div>
+      <div class="panel-body" id="pageListBody"></div>
     </div>
   </div>
 
   <script is:inline>
-    // ------------------------------------------------------------
-    // 発見ページの登録テーブル
-    // 「このパスに来たら、このIDのメモとして記録する」という対応表。
-    // 新しいページを増やすたびに、ここに1行足すだけでよい。
-    // ------------------------------------------------------------
     const PAGE_REGISTRY = {
       "/": { id: "01", title: "Search" },
       "/contents/y-chat": { id: "02", title: "Y.com - チャット" },
@@ -203,7 +174,6 @@ const { title } = Astro.props;
 
     function recordVisit() {
       const path = window.location.pathname.replace(/\/index\.html$/, "/").replace(/\/$/, "") || "/";
-      // BASE_URL などでパスにプレフィックスが付く場合は、末尾一致で拾う
       const matchedKey = Object.keys(PAGE_REGISTRY).find(key => path === key || path.endsWith(key));
       if (!matchedKey) return;
 
@@ -245,30 +215,34 @@ const { title } = Astro.props;
       const closeBtn = document.getElementById("panelCloseBtn");
       const pageListBtn = document.getElementById("menuOpenPageList");
       const resetBtn = document.getElementById("menuResetProgress");
-      const pageListPopup = document.getElementById("pageListPopup");
-      const pageListCloseBtn = document.getElementById("pageListCloseBtn");
+      const backToMenuBtn = document.getElementById("backToMenuBtn");
+      const listCloseBtn = document.getElementById("listCloseBtn");
+      const menuView = document.getElementById("menuView");
+      const listView = document.getElementById("listView");
+
+      const showView = (viewToShow) => {
+        menuView.classList.toggle("active", viewToShow === "menu");
+        listView.classList.toggle("active", viewToShow === "list");
+      };
 
       const togglePanel = (open) => {
         sidePanel.classList.toggle("open", open);
         backdrop.classList.toggle("open", open);
+        if (!open) showView("menu"); // 閉じたら次回開いた時のためにメニューへ戻しておく
       };
 
       menuBtn?.addEventListener("click", () => togglePanel(true));
       closeBtn?.addEventListener("click", () => togglePanel(false));
+      listCloseBtn?.addEventListener("click", () => togglePanel(false));
       backdrop?.addEventListener("click", () => togglePanel(false));
 
       pageListBtn?.addEventListener("click", () => {
-        togglePanel(false);
         renderMemoList();
-        pageListPopup?.classList.add("is-open");
+        showView("list");
       });
 
-      pageListCloseBtn?.addEventListener("click", () => {
-        pageListPopup?.classList.remove("is-open");
-      });
-
-      pageListPopup?.addEventListener("click", (e) => {
-        if (e.target === pageListPopup) pageListPopup.classList.remove("is-open");
+      backToMenuBtn?.addEventListener("click", () => {
+        showView("menu");
       });
 
       resetBtn?.addEventListener("click", () => {

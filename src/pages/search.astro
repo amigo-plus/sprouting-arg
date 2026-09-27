@@ -89,16 +89,20 @@ import Layout from '../layouts/Layout.astro';
     }
 
     // 3. サイドバーエリアの動的生成 (SVGアイコン付き)
-    const iconSvg = `<svg class="b-side-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>`;
-    const safeQuery = escapeHtml(query);
+    if (query === "真蔓") {
+      const iconSvg = `<svg class="b-side-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>`;
+      const safeQuery = escapeHtml(query);
 
-    sidebarArea.innerHTML = `
-      <h4>${safeQuery} について掘り下げる</h4>
-      <div class="b-side-item">${iconSvg}<span>${safeQuery} 役所ホームページ</span></div>
-      <div class="b-side-item">${iconSvg}<span>${safeQuery} 地図</span></div>
-      <div class="b-side-item">${iconSvg}<span>${safeQuery} 人口</span></div>
-      <div class="b-side-item">${iconSvg}<span>${safeQuery} 天気</span></div>
-    `;
+      sidebarArea.innerHTML = `
+        <h4>${safeQuery} について掘り下げる</h4>
+        <div class="b-side-item">${iconSvg}<span>${safeQuery} 市役所 ホームページ</span></div>
+        <div class="b-side-item">${iconSvg}<span>${safeQuery} 市 地図</span></div>
+        <div class="b-side-item">${iconSvg}<span>${safeQuery} 市 人口</span></div>
+        <div class="b-side-item">${iconSvg}<span>${safeQuery} 市 天気</span></div>
+      `;
+    } else {
+      sidebarArea.innerHTML = "";
+    }
   }
 
   document.getElementById('searchForm')?.addEventListener('submit', (e) => {
