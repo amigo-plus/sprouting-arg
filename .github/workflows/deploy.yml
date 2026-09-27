@@ -2,7 +2,7 @@ name: Deploy Astro site to Pages
 
 on:
   push:
-    branches: [ main ] # または master
+    branches: [ main ]
 
 permissions:
   contents: read
@@ -18,6 +18,8 @@ jobs:
 
       - name: Install, build, and upload Site
         uses: withastro/action@v3
+        with:
+          node-version: 22
 
   deploy:
     needs: build
