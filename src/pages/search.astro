@@ -1,115 +1,265 @@
 ---
 import Layout from '../layouts/Layout.astro';
-
-const query = Astro.url.searchParams.get('q')?.trim() || '';
-
-// 💡 検索ワードごとの正解データ（ここにゲームの導線を仕込みます）
-const database: Record<string, { title: string; url: string; snippet: string }[]> = {
-  // 「ARG」で検索された場合
-  "ARG": [
-    {
-      title: "ARG作品を探す・遊ぶ | WebARGポータル",
-      url: "/contents/y-chat", // 別の謎解きページやY-chatなどへリンク
-      snippet: "体験型ミステリーゲームの決定版。謎を追い求めるプレイヤーが集まる非公式ポータルサイト。"
-    },
-    {
-      title: "ARG（代替現実ゲーム）とは？国内の事例と事件",
-      url: "#",
-      snippet: "現実と虚構が交差する体験型ゲーム。現実のWebサイトやSNSを調査することでストーリーが進んでいく。"
-    }
-  ],
-
-  // 「イルマ」で検索された場合
-  "イルマ": [
-    {
-      title: "イルマのオカルトブログ（アーカイブ）",
-      url: "/contents/y-chat",
-      snippet: "オカルト好きなイルマによる個人的なログ。メッセージ一覧や過去の投稿履歴。"
-    }
-  ],
-
-  // 「怪文書」など別の正解フラグ
-  "怪文書": [
-    {
-      title: "【閲覧注意】ネットに流出した謎の詩について",
-      url: "#",
-      snippet: "一時期掲示板で噂された作者不明の詩。読んだ者に異変が起きると言われているが…"
-    }
-  ]
-};
-
-// 検索キーワードに対応するデータがあればそれを取得、なければ空配列
-const results = database[query] || [];
 ---
 
-<Layout title={`${query ? query + ' - ' : ''}検索`}>
-  <div class="search-header">
-    <div class="logo">🔍</div>
-    <form action="/search" method="GET" class="search-form">
-      <input type="text" name="q" value={query} placeholder="検索キーワードを入力..." class="search-input" />
-      <button type="submit" class="search-button">検索</button>
-    </form>
-  </div>
+<Layout title="検索結果">
+  <div class="bing-search-page">
+    <header class="b-header">
+      <a href="/" class="b-logo-text">S</a>
+      <form id="searchForm" class="b-search-form">
+        <input type="text" id="mainSearchInput" class="b-input" placeholder="検索キーワードを入力..." />
+        <button type="submit" class="b-btn">検索</button>
+      </form>
+    </header>
 
-  <main class="search-container">
-    {query === '' ? (
-      <p class="no-result">キーワードを入力して検索してください。</p>
-    ) : results.length > 0 ? (
-      <div class="results-column">
-        <p class="results-count">「{query}」の検索結果（{results.length}件）</p>
-        {results.map((item) => (
-          <div class="result-card">
-            <div class="site-url">{item.url}</div>
-            <h2 class="title">
-              <a href={item.url}>{item.title}</a>
-            </h2>
-            <p class="snippet">{item.snippet}</p>
-          </div>
-        ))}
-      </div>
-    ) : (
-      <div class="results-column">
-        <p class="results-count">「{query}」に一致する情報は見つかりませんでした。</p>
-        <p class="no-result-hint">ヒント: 正しいキーワード（例: 「ARG」「イルマ」など）を入力してください。</p>
-      </div>
-    )}
-  </main>
+    <!-- タブ -->
+    <nav class="b-nav">
+      <span class="active">すべて</span>
+      <span>画像</span>
+      <span>動画</span>
+      <span>ニュース</span>
+      <span>地図</span>
+    </nav>
+
+    <!-- メインコンテンツ -->
+    <div class="b-body">
+      <main class="b-main" id="resultArea"></main>
+      <aside class="b-sidebar" id="sidebarArea"></aside>
+    </div>
+
+    <!-- フッター -->
+    <footer class="b-footer">
+      <p>&copy; amigo</p>
+      <p>このWebサイトの内容はすべてフィクションであり、実在の人物・団体とは一切関係がありません。</p>
+    </footer>
+  </div>
 </Layout>
 
-<style>
-  body { background-color: #f8f9fa; color: #1b1b1b; }
-  .search-header {
+<script>
+  async function loadDB() {
+    const res = await fetch(`${import.meta.env.BASE_URL}data/searchDatabase.json`);
+    return res.json();
+  }
+
+  function getQuery() {
+    return new URLSearchParams(window.location.search).get('q') || '';
+  }
+
+  function escapeHtml(str: string) {
+    return str.replace(/[&<>"']/g, (m) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m] as string));
+  }
+
+  async function render() {
+    const query = getQuery().trim();
+    const input = document.getElementById('mainSearchInput') as HTMLInputElement;
+    if (input) input.value = query;
+
+    const resultArea = document.getElementById('resultArea')!;
+    const sidebarArea = document.getElementById('sidebarArea')!;
+
+    // 1. 未入力の場合
+    if (!query) {
+      resultArea.innerHTML = `<div class="b-card"><p style="color:#5f6368; margin:0;">キーワードを入力して検索してください。</p></div>`;
+      sidebarArea.innerHTML = '';
+      return;
+    }
+
+    const db = await loadDB();
+    const results = db[query] || [];
+
+    // 2. 検索結果メインエリアの生成
+    if (results.length === 0) {
+      resultArea.innerHTML = `
+        <div class="b-card">
+          <p class="b-not-found-text">「<strong>${escapeHtml(query)}</strong>」に一致する情報は見つかりませんでした。</p>
+          <ul class="b-not-found-hints">
+            <li>キーワードに誤字や脱字がないか確認してください。</li>
+          </ul>
+        </div>`;
+    } else {
+      resultArea.innerHTML = `
+        <p class="b-count">約 ${results.length * 1280} 件のサイト</p>
+        ${results.map((item: any) => `
+          <article class="b-card">
+            <div class="b-card-url">${escapeHtml(item.url)}</div>
+            <h2 class="b-card-title"><a href="${item.url}">${escapeHtml(item.title)}</a></h2>
+            <p class="b-card-snippet">${escapeHtml(item.snippet)}</p>
+          </article>
+        `).join('')}`;
+    }
+
+    // 3. サイドバーエリアの動的生成 (SVGアイコン付き)
+    const iconSvg = `<svg class="b-side-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>`;
+    const safeQuery = escapeHtml(query);
+
+    sidebarArea.innerHTML = `
+      <h4>${safeQuery} について掘り下げる</h4>
+      <div class="b-side-item">${iconSvg}<span>${safeQuery} 役所ホームページ</span></div>
+      <div class="b-side-item">${iconSvg}<span>${safeQuery} 地図</span></div>
+      <div class="b-side-item">${iconSvg}<span>${safeQuery} 人口</span></div>
+      <div class="b-side-item">${iconSvg}<span>${safeQuery} 天気</span></div>
+    `;
+  }
+
+  document.getElementById('searchForm')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const input = document.getElementById('mainSearchInput') as HTMLInputElement;
+    const q = input.value.trim();
+    const url = new URL(window.location.href);
+    url.searchParams.set('q', q);
+    window.location.href = url.toString();
+  });
+
+  render();
+</script>
+
+<style is:global>
+  .bing-search-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #fff !important;
+  }
+
+  /* ヘッダー */
+  .b-header {
     display: flex;
     align-items: center;
     padding: 16px 24px;
+    gap: 20px;
     background: #fff;
-    border-bottom: 1px solid #e0e0e0;
-    gap: 16px;
   }
-  .search-form { display: flex; flex: 1; max-width: 600px; }
-  .search-input {
-    flex: 1;
-    padding: 10px 16px;
-    border: 1px solid #ccc;
-    border-radius: 20px 0 0 20px;
-    outline: none;
-    font-size: 15px;
+
+  /* 文字ロゴ「S」 */
+  .b-logo-text {
+    font-size: 28px;
+    font-weight: 900;
+    color: #0078d4;
+    text-decoration: none;
+    font-family: Arial, sans-serif;
+    line-height: 1;
+    padding: 0 4px;
   }
-  .search-button {
-    padding: 10px 20px;
+
+  .b-search-form {
+    display: flex;
+    align-items: center;
     border: 1px solid #0078d4;
+    border-radius: 24px;
+    padding: 4px 6px 4px 16px;
+    width: 100%;
+    max-width: 560px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  }
+
+  .b-input {
+    flex: 1;
+    border: none !important;
+    outline: none !important;
+    font-size: 15px;
+    background: transparent;
+  }
+
+  .b-btn {
     background: #0078d4;
-    color: white;
-    border-radius: 0 20px 20px 0;
+    color: #fff;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 18px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+  }
+
+  .b-nav {
+    display: flex;
+    gap: 24px;
+    padding: 0 24px 12px 68px;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 14px;
+    color: #666;
+  }
+
+  .b-nav .active {
+    color: #0078d4;
+    font-weight: bold;
+    border-bottom: 2px solid #0078d4;
+    padding-bottom: 10px;
+  }
+
+  .b-body {
+    flex: 1;
+    display: flex;
+    max-width: 1150px;
+    width: 100%;
+    margin: 24px auto;
+    padding: 0 24px;
+    box-sizing: border-box;
+    gap: 48px;
+  }
+
+  .b-main { flex: 1; }
+  .b-count { font-size: 13px; color: #666; margin-bottom: 16px; }
+
+  .b-card {
+    background: #fff;
+    padding: 12px 0;
+    margin-bottom: 20px;
+  }
+
+  .b-card-url { font-size: 12px; color: #444; margin-bottom: 4px; }
+  .b-card-title a { color: #1a0dab; text-decoration: none; font-size: 18px; font-weight: 500; }
+  .b-card-title a:hover { text-decoration: underline; }
+  .b-card-snippet { font-size: 13px; color: #3c4043; margin-top: 6px; line-height: 1.5; }
+
+  /* ヒットしなかった場合のテキスト */
+  .b-not-found-text {
+    font-size: 15px;
+    color: #202124;
+    margin: 0 0 12px 0;
+  }
+
+  .b-not-found-hints {
+    font-size: 13px;
+    color: #5f6368;
+    padding-left: 20px;
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  /* サイドバー */
+  .b-sidebar { width: 300px; }
+  .b-sidebar h4 { font-size: 15px; margin-bottom: 16px; color: #202124; }
+  
+  .b-side-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    padding: 10px 16px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    font-size: 13px;
+    color: #333;
     cursor: pointer;
   }
-  .search-container { max-width: 800px; margin: 30px auto; padding: 0 16px; }
-  .results-count { font-size: 14px; color: #666; margin-bottom: 16px; }
-  .result-card { background: #fff; padding: 18px; border-radius: 8px; border: 1px solid #e0e0e0; margin-bottom: 16px; }
-  .site-url { font-size: 12px; color: #006621; margin-bottom: 4px; }
-  .title a { color: #1a0dab; text-decoration: none; font-size: 18px; font-weight: 600; }
-  .title a:hover { text-decoration: underline; }
-  .snippet { font-size: 14px; color: #4d5156; margin-top: 6px; line-height: 1.5; }
-  .no-result { font-size: 16px; color: #666; text-align: center; margin-top: 40px; }
-  .no-result-hint { font-size: 14px; color: #888; margin-top: 8px; }
+
+  .b-side-icon {
+    width: 16px;
+    height: 16px;
+    stroke: #0078d4;
+  }
+
+  .b-footer {
+    width: 100%;
+    padding: 20px;
+    text-align: center;
+    font-size: 12px;
+    color: #70757a;
+    background-color: #f2f2f2;
+    border-top: 1px solid #e4e4e4;
+    margin-top: auto;
+  }
+  .b-footer p { margin: 2px 0; }
 </style>

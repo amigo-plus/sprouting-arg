@@ -66,6 +66,12 @@ import Layout from '../../layouts/Layout.astro';
     </div>
   </div>
 
+  <!-- 画像拡大用モーダル -->
+  <div id="imageModal" class="image-modal">
+    <span class="close-btn" id="closeModal">&times;</span>
+    <img id="modalImage" src="" alt="拡大画像" />
+  </div>
+
   <footer class="site-footer">
     <p>&copy; amigo</p>
     <p>このWebサイトの内容はすべてフィクションであり、実在の人物・団体とは一切関係がありません。</p>
@@ -164,8 +170,34 @@ import Layout from '../../layouts/Layout.astro';
   @keyframes fadeInMsg { to { opacity: 1; transform: translateY(0); } }
 
   :global(.bubble) { max-width: 68%; padding: 12px 16px; border-radius: 20px 20px 20px 4px; background-color: #2f3336; color: #f7f9f9; font-size: 15px; line-height: 1.4; word-break: break-word; }
-  :global(.image-bubble) { max-width: 300px; border-radius: 16px; overflow: hidden; border: 1px solid #2f3336; background-color: #16181c; }
+  :global(.image-bubble) { max-width: 300px; border-radius: 16px; overflow: hidden; border: 1px solid #2f3336; background-color: #16181c; cursor: pointer; transition: opacity 0.2s; }
+  :global(.image-bubble:hover) { opacity: 0.85; }
   :global(.image-bubble img) { width: 100%; height: auto; display: block; }
+
+  /* 画像モーダルのスタイル */
+  .image-modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.85);
+    justify-content: center;
+    align-items: center;
+  }
+  .image-modal.open { display: flex; }
+  .image-modal img { max-width: 90%; max-height: 90%; border-radius: 8px; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+  .close-btn {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+  }
 
   .typing-row { display: none; align-items: center; margin-bottom: 4px; }
   .typing-row.visible { display: flex; }
@@ -183,7 +215,6 @@ import Layout from '../../layouts/Layout.astro';
 </style>
 
 <script>
-  // メッセージ要素の型定義
   type MessageItem = {
     type: 'text' | 'image';
     text?: string;
@@ -195,7 +226,7 @@ import Layout from '../../layouts/Layout.astro';
   const messageSequence: MessageItem[] = [
     { type: "text", text: "なあなあ", delay: 1200 },
     { type: "text", text: "たまたま見つけたんだけどさ、", delay: 1800 },
-    { type: "image", src: "https://placehold.co/600x400/2f3336/e7e9ea?text=%5B%E8%A9%97%E3%81%AE%E7%94%BB%E5%83%8F%5D", alt: "送られてきた画像", delay: 2000 },
+    { type: "image", src: "/images/start.JPG", alt: "送られてきた画像", delay: 2000 },
     { type: "text", text: "これなんかオカルト臭しないか？w", delay: 1500 },
     { type: "text", text: "昔一瞬出回ってたみたいなんだが、", delay: 1600 },
     { type: "text", text: "全然詳細がわかんねえんだ", delay: 1500 },
@@ -207,10 +238,19 @@ import Layout from '../../layouts/Layout.astro';
     { type: "text", text: "まあとりあえず調べてみてくれよ！w", delay: 1600 },
   ];
 
-  // ms に number 型を指定
   const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-  // msg に MessageItem 型を指定
+  function setupImageModal(imgElement: HTMLImageElement) {
+    const modal = document.getElementById("imageModal");
+    const modalImg = document.getElementById("modalImage") as HTMLImageElement;
+    if (!modal || !modalImg) return;
+
+    imgElement.addEventListener("click", () => {
+      modalImg.src = imgElement.src;
+      modal.classList.add("open");
+    });
+  }
+
   function createMessageNode(msg: MessageItem, isInstant = false) {
     const sidebarPreview = document.getElementById("sidebar-preview");
     const msgRow = document.createElement("div");
@@ -228,6 +268,7 @@ import Layout from '../../layouts/Layout.astro';
       const img = document.createElement("img");
       img.src = msg.src;
       img.alt = msg.alt || "画像";
+      setupImageModal(img); // 画像クリックイベントを適用
       imgBubble.appendChild(img);
       msgRow.appendChild(imgBubble);
       if (sidebarPreview) sidebarPreview.textContent = "[画像]";
@@ -242,9 +283,18 @@ import Layout from '../../layouts/Layout.astro';
   async function initChat() {
     const messageArea = document.getElementById("messageArea");
     const typingRow = document.getElementById("typingRow");
+    const modal = document.getElementById("imageModal");
+    const closeModal = document.getElementById("closeModal");
+
+    if (modal && closeModal) {
+      closeModal.addEventListener("click", () => modal.classList.remove("open"));
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal) modal.classList.remove("open");
+      });
+    }
+
     if (!messageArea || !typingRow) return;
 
-    // 2回目以降のアクセス判定
     if (localStorage.getItem("dm_played") === "true") {
       for (const msg of messageSequence) {
         const msgRow = createMessageNode(msg, true);
@@ -252,7 +302,6 @@ import Layout from '../../layouts/Layout.astro';
       }
       scrollToBottom(messageArea);
     } else {
-      // 初回再生
       await sleep(800);
       for (const msg of messageSequence) {
         typingRow.classList.add("visible");
@@ -272,6 +321,5 @@ import Layout from '../../layouts/Layout.astro';
     }
   }
 
-  // 画面ロード時に実行
   initChat();
 </script>
