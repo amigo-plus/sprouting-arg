@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="data:,">
+  <title>検索</title>
+  
+  <!-- CSS読み込み -->
+  <link rel="stylesheet" href="assets/css/search-modal.css">
+  <link rel="stylesheet" href="assets/css/default.css">
+  <link rel="stylesheet" href="assets/css/page-list-modal.css">
+  <link rel="stylesheet" href="assets/css/search-bar.css">
+  <link rel="stylesheet" href="assets/css/page-counter.css">
+  <style>
+    /* ----------------------------------------------------
+       Google / Edge風レイアウトの追加スタイル（ライトモード）
+       ---------------------------------------------------- */
+    body {
+      background-color: #ffffff;
+      color: #202124;
+      font-family: "Hiragino Sans", "ヒラギノ角ゴ ProN", "Yu Gothic", "Meiryo", sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* 上部標準ナビゲーション（YACHO用）を隠す */
+    .top-nav {
+      display: none;
+    }
+
+    .site-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+
+    .content {
+      width: 100%;
+      max-width: 680px;
+      padding: 0 20px;
+      margin-top: calc(22vh - 20px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .article-header {
+      margin-bottom: 28px;
+    }
+
+    /* ロゴタイトル */
+    .search-logo {
+      text-align: center;
+      font-size: 4.8rem;
+      font-weight: 700;
+      letter-spacing: -1px;
+      color: #2AB9EF;
+      user-select: none;
+      font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", MeiYo, sans-serif;
+    }
+
+    .article-body {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* 検索バーコンテナ */
+    .search-container {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      background-color: #ffffff;
+      border: 1px solid #dfe1e5;
+      border-radius: 24px;
+      padding: 10px 16px;
+      box-shadow: 0 1px 6px rgba(32,33,36,0.1);
+      transition: box-shadow 0.2s, border-color 0.2s;
+    }
+
+    .search-container:hover,
+    .search-container:focus-within {
+      box-shadow: 0 2px 8px rgba(32,33,36,0.2);
+      border-color: rgba(223,225,229,0);
+    }
+
+    .search-icon {
+      color: #9aa0a6;
+      margin-right: 12px;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #202124;
+      font-size: 16px;
+      font-family: inherit;
+    }
+
+    .search-btn {
+      background: transparent;
+      border: none;
+      color: #5f6368;
+      cursor: pointer;
+      padding: 4px 8px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      font-family: inherit;
+    }
+
+    .search-btn:hover {
+      color: #202124;
+    }
+
+    /* ショートカットエリア */
+    .shortcuts-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 36px;
+      justify-content: center;
+      max-width: 100%;
+    }
+
+    .shortcut-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: #3c4043;
+      width: 68px;
+      cursor: pointer;
+    }
+
+    .shortcut-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background-color: #f8f9fa;
+      border: 1px solid #dadce0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 8px;
+      font-size: 20px;
+      font-weight: 700;
+      color: #3c4043;
+      transition: background-color 0.2s, box-shadow 0.2s;
+    }
+
+    .shortcut-item:hover .shortcut-icon {
+      background-color: #f1f3f4;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .shortcut-label {
+      font-size: 12px;
+      color: #4d5156;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+      text-align: center;
+    }
+
+    /* 空枠（＋）のスタイル */
+    .shortcut-item.empty {
+      cursor: default;
+    }
+
+    .shortcut-item.empty .shortcut-icon {
+      color: #80868b;
+      border-style: dashed;
+      background-color: transparent;
+    }
+
+    /* シンプルなフッター */
+    .site-footer {
+      width: 100%;
+      padding: 16px;
+      text-align: center;
+      font-size: 12px;
+      color: #70757a;
+      background-color: #f2f2f2;
+      border-top: 1px solid #e4e4e4;
+    }
+
+    .site-footer p {
+      margin: 0;
+    }
+
+    /* ── ページ番号（ページカウンター）を完全に非表示 ── */
+    #page-counter, .page-counter {
+      display: none !important;
+    }
+
+    /* ── 右下トースト通知ポップアップ（ボタンと被らないよう少し上に移動） ── */
+    .toast-popup {
+      position: fixed;
+      bottom: 84px; /* ボタンと被らない高さへ調整 */
+      right: 24px;
+      width: 280px;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      border: 1px solid #e8eaed;
+      z-index: 9990;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .toast-popup.hidden {
+      opacity: 0;
+      transform: translateY(20px);
+      pointer-events: none;
+    }
+
+    .toast-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .toast-title {
+      font-size: 0.9rem;
+      font-weight: bold;
+      color: #202124;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .toast-close-btn {
+      background: none;
+      border: none;
+      color: #9aa0a6;
+      font-size: 16px;
+      cursor: pointer;
+      padding: 0 4px;
+      line-height: 1;
+    }
+
+    .toast-close-btn:hover {
+      color: #5f6368;
+    }
+
+    .toast-body {
+      font-size: 0.85rem;
+      color: #5f6368;
+      line-height: 1.4;
+    }
+
+    .toast-action-btn {
+      align-self: flex-end;
+      background-color: #202124;
+      color: #ffffff;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 0.2s;
+    }
+
+    .toast-action-btn:hover {
+      background-color: #3c4043;
+    }
+
+    /* ----------------------------------------------------
+       右下カスタムフローティングボタン & サイドパネル
+       ---------------------------------------------------- */
+    .custom-floating-btn {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 48px;
+      height: 48px;
+      background-color: #ffffff;
+      border: 1px solid #dadce0;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9995;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .custom-floating-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+    }
+
+    .custom-side-panel {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      bottom: 16px;
+      width: 320px;
+      max-width: calc(100vw - 32px);
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: -4px 0 24px rgba(0,0,0,0.18);
+      z-index: 9998;
+      display: flex;
+      flex-direction: column;
+      transform: translateX(120%);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .custom-side-panel.open {
+      transform: translateX(0);
+    }
+
+    .panel-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid #f1f3f4;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .panel-title {
+      font-weight: bold;
+      font-size: 1rem;
+      color: #202124;
+    }
+
+    .panel-close-btn {
+      background: none;
+      border: none;
+      font-size: 18px;
+      color: #70757a;
+      cursor: pointer;
+    }
+
+    .panel-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 20px;
+    }
+
+    .panel-menu-item {
+      display: flex;
+      align-items: center;
+      padding: 12px;
+      border-radius: 8px;
+      color: #3c4043;
+      text-decoration: none;
+      margin-bottom: 8px;
+      background: #f8f9fa;
+      cursor: pointer;
+      border: none;
+      width: 100%;
+      text-align: left;
+      font-size: 0.9rem;
+      font-family: inherit;
+      transition: background 0.2s;
+    }
+
+    .panel-menu-item:hover {
+      background: #e8eaed;
+    }
+
+    .panel-menu-icon {
+      margin-right: 12px;
+      font-size: 1.1rem;
+    }
+
+    .panel-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.2);
+      z-index: 9997;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .panel-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* YACHO標準のページ一覧モーダルを最前面にする */
+    .page-list-popup {
+      z-index: 999999 !important;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- YACHO互換用の隠しナビ -->
+  <nav class="top-nav">
+    <div class="top-nav__search">
+      <label class="visually-hidden" for="searchInput">検索</label>
+      <input id="searchInput" placeholder="キーワードを入力">
+      <button id="searchBtn" type="button">検索</button>
+    </div>
+  </nav>
+
+  <div class="site-container">
+    <main class="content">
+      <article class="article">
+        <header class="article-header">
+          <div class="search-logo">Search</div>
+        </header>
+
+        <div class="article-body">
+          <!-- 中央検索バー -->
+          <div class="search-container">
+            <div class="search-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+              </svg>
+            </div>
+            <input id="mainSearchInput" class="search-input" placeholder="検索ワードを入力" autofocus>
+            <button id="mainSearchBtn" class="search-btn" type="button">検索</button>
+          </div>
+
+          <!-- ショートカットエリア -->
+          <div class="shortcuts-container">
+            <a href="./contents/y-chat.html" class="shortcut-item">
+              <div class="shortcut-icon" style="background-color: #000; border-color: #000; color: #fff;">Y</div>
+              <span class="shortcut-label">Y</span>
+            </a>
+            <div class="shortcut-item empty">
+              <div class="shortcut-icon">＋</div>
+              <span class="shortcut-label">ショートカ...</span>
+            </div>
+            <div class="shortcut-item empty">
+              <div class="shortcut-icon">＋</div>
+              <span class="shortcut-label">ショートカ...</span>
+            </div>
+            <div class="shortcut-item empty">
+              <div class="shortcut-icon">＋</div>
+              <span class="shortcut-label">ショートカ...</span>
+            </div>
+            <div class="shortcut-item empty">
+              <div class="shortcut-icon">＋</div>
+              <span class="shortcut-label">ショートカ...</span>
+            </div>
+          </div>
+        </div>
+      </article>
+    </main>
+
+    <footer class="site-footer">
+      <p>&copy; amigo</p>
+      <p>このWebサイトの内容はすべてフィクションであり、実在の人物・団体とは一切関係がありません。</p>
+    </footer>
+  </div>
+
+  <!-- 右下トーストポップアップ -->
+  <div id="welcomeModal" class="toast-popup hidden">
+    <div class="toast-header">
+      <div class="toast-title">💬 新着メッセージ</div>
+      <button type="button" class="toast-close-btn" id="toastCloseBtn">✕</button>
+    </div>
+    <div class="toast-body">
+      イルマ＠オカルト垢 さんから<br>メッセージが届いています。
+    </div>
+    <a href="./contents/y-chat.html" class="toast-action-btn">開く</a>
+  </div>
+
+  <!-- 右下フローティングボタン & サイドパネル -->
+  <button id="customMenuBtn" class="custom-floating-btn" type="button" title="メニュー">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="#5f6368">
+      <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+    </svg>
+  </button>
+
+  <div id="customBackdrop" class="panel-backdrop"></div>
+
+  <div id="customSidePanel" class="custom-side-panel">
+    <div class="panel-header">
+      <span class="panel-title">メニュー / ツール</span>
+      <button id="panelCloseBtn" class="panel-close-btn" type="button">✕</button>
+    </div>
+    <div class="panel-body">
+      <button id="menuOpenPageList" class="panel-menu-item" type="button">
+        <span class="panel-menu-icon">📋</span>
+        <span>発見ページメモ（ページ一覧）</span>
+      </button>
+
+      <a href="./index.html" class="panel-menu-item">
+        <span class="panel-menu-icon">🔍</span>
+        <span>トップ（検索）に戻る</span>
+      </a>
+
+      <button id="menuResetProgress" class="panel-menu-item" type="button" style="color: #d93025;">
+        <span class="panel-menu-icon">🔄</span>
+        <span>進行状況をリセット</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- スクリプト -->
+  <script>
+    window.YACHO_BASE = new URL("./", window.location.href).pathname; 
+    window.YACHO_PROVIDER_MODE = "json";
+
+    document.addEventListener("DOMContentLoaded", () => {
+      // トースト処理
+      const welcomeModal = document.getElementById("welcomeModal");
+      const toastCloseBtn = document.getElementById("toastCloseBtn");
+
+      const hasVisited = sessionStorage.getItem("yacho_welcome_shown");
+      if (!hasVisited) {
+        if (welcomeModal) {
+          setTimeout(() => welcomeModal.classList.remove("hidden"), 100);
+        }
+        sessionStorage.setItem("yacho_welcome_shown", "true");
+      }
+
+      if (toastCloseBtn && welcomeModal) {
+        toastCloseBtn.addEventListener("click", () => welcomeModal.classList.add("hidden"));
+      }
+
+      // 右下カスタムパネルの制御
+      const menuBtn = document.getElementById("customMenuBtn");
+      const sidePanel = document.getElementById("customSidePanel");
+      const backdrop = document.getElementById("customBackdrop");
+      const closeBtn = document.getElementById("panelCloseBtn");
+      const pageListBtn = document.getElementById("menuOpenPageList");
+      const resetBtn = document.getElementById("menuResetProgress");
+
+      const togglePanel = (open) => {
+        if (open) {
+          sidePanel.classList.add("open");
+          backdrop.classList.add("open");
+        } else {
+          sidePanel.classList.remove("open");
+          backdrop.classList.remove("open");
+        }
+      };
+
+      menuBtn.addEventListener("click", () => togglePanel(true));
+      closeBtn.addEventListener("click", () => togglePanel(false));
+      backdrop.addEventListener("click", () => togglePanel(false));
+
+      // ページ一覧を開く（YACHO本体が生成した要素を安全に呼び出す）
+      pageListBtn.addEventListener("click", () => {
+        togglePanel(false);
+        const yachoModal = document.querySelector('.page-list-popup');
+        if (yachoModal) {
+          yachoModal.removeAttribute('hidden');
+          yachoModal.classList.add('is-open');
+          yachoModal.style.display = 'block';
+        } else {
+          alert('ページ一覧の読み込み中です。少々お待ちください。');
+        }
+      });
+
+      // 進行状況リセット処理
+      resetBtn.addEventListener("click", () => {
+        if (confirm("これまでの閲覧履歴と進行状況をすべて初期化しますか？")) {
+          localStorage.clear();
+          sessionStorage.clear();
+          alert("進行状況をリセットしました。ページを再読み込みします。");
+          window.location.reload();
+        }
+      });
+    });
+  </script>
+
+  <!-- YACHOコア -->
+  <script type="module" src="./assets/js/core/index.js"></script>
+</body>
+</html>
