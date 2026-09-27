@@ -1,0 +1,115 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const query = Astro.url.searchParams.get('q')?.trim() || '';
+
+// 💡 検索ワードごとの正解データ（ここにゲームの導線を仕込みます）
+const database: Record<string, { title: string; url: string; snippet: string }[]> = {
+  // 「ARG」で検索された場合
+  "ARG": [
+    {
+      title: "ARG作品を探す・遊ぶ | WebARGポータル",
+      url: "/contents/y-chat", // 別の謎解きページやY-chatなどへリンク
+      snippet: "体験型ミステリーゲームの決定版。謎を追い求めるプレイヤーが集まる非公式ポータルサイト。"
+    },
+    {
+      title: "ARG（代替現実ゲーム）とは？国内の事例と事件",
+      url: "#",
+      snippet: "現実と虚構が交差する体験型ゲーム。現実のWebサイトやSNSを調査することでストーリーが進んでいく。"
+    }
+  ],
+
+  // 「イルマ」で検索された場合
+  "イルマ": [
+    {
+      title: "イルマのオカルトブログ（アーカイブ）",
+      url: "/contents/y-chat",
+      snippet: "オカルト好きなイルマによる個人的なログ。メッセージ一覧や過去の投稿履歴。"
+    }
+  ],
+
+  // 「怪文書」など別の正解フラグ
+  "怪文書": [
+    {
+      title: "【閲覧注意】ネットに流出した謎の詩について",
+      url: "#",
+      snippet: "一時期掲示板で噂された作者不明の詩。読んだ者に異変が起きると言われているが…"
+    }
+  ]
+};
+
+// 検索キーワードに対応するデータがあればそれを取得、なければ空配列
+const results = database[query] || [];
+---
+
+<Layout title={`${query ? query + ' - ' : ''}検索`}>
+  <div class="search-header">
+    <div class="logo">🔍</div>
+    <form action="/search" method="GET" class="search-form">
+      <input type="text" name="q" value={query} placeholder="検索キーワードを入力..." class="search-input" />
+      <button type="submit" class="search-button">検索</button>
+    </form>
+  </div>
+
+  <main class="search-container">
+    {query === '' ? (
+      <p class="no-result">キーワードを入力して検索してください。</p>
+    ) : results.length > 0 ? (
+      <div class="results-column">
+        <p class="results-count">「{query}」の検索結果（{results.length}件）</p>
+        {results.map((item) => (
+          <div class="result-card">
+            <div class="site-url">{item.url}</div>
+            <h2 class="title">
+              <a href={item.url}>{item.title}</a>
+            </h2>
+            <p class="snippet">{item.snippet}</p>
+          </div>
+        ))}
+      </div>
+    ) : (
+      <div class="results-column">
+        <p class="results-count">「{query}」に一致する情報は見つかりませんでした。</p>
+        <p class="no-result-hint">ヒント: 正しいキーワード（例: 「ARG」「イルマ」など）を入力してください。</p>
+      </div>
+    )}
+  </main>
+</Layout>
+
+<style>
+  body { background-color: #f8f9fa; color: #1b1b1b; }
+  .search-header {
+    display: flex;
+    align-items: center;
+    padding: 16px 24px;
+    background: #fff;
+    border-bottom: 1px solid #e0e0e0;
+    gap: 16px;
+  }
+  .search-form { display: flex; flex: 1; max-width: 600px; }
+  .search-input {
+    flex: 1;
+    padding: 10px 16px;
+    border: 1px solid #ccc;
+    border-radius: 20px 0 0 20px;
+    outline: none;
+    font-size: 15px;
+  }
+  .search-button {
+    padding: 10px 20px;
+    border: 1px solid #0078d4;
+    background: #0078d4;
+    color: white;
+    border-radius: 0 20px 20px 0;
+    cursor: pointer;
+  }
+  .search-container { max-width: 800px; margin: 30px auto; padding: 0 16px; }
+  .results-count { font-size: 14px; color: #666; margin-bottom: 16px; }
+  .result-card { background: #fff; padding: 18px; border-radius: 8px; border: 1px solid #e0e0e0; margin-bottom: 16px; }
+  .site-url { font-size: 12px; color: #006621; margin-bottom: 4px; }
+  .title a { color: #1a0dab; text-decoration: none; font-size: 18px; font-weight: 600; }
+  .title a:hover { text-decoration: underline; }
+  .snippet { font-size: 14px; color: #4d5156; margin-top: 6px; line-height: 1.5; }
+  .no-result { font-size: 16px; color: #666; text-align: center; margin-top: 40px; }
+  .no-result-hint { font-size: 14px; color: #888; margin-top: 8px; }
+</style>
