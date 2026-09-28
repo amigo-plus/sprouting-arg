@@ -1,0 +1,90 @@
+---
+// 配置先: src/pages/contents/engei-bbs.astro
+import Layout from '../../layouts/Layout.astro';
+
+const menu = ['ホーム', '会の紹介', '各種情報', '入会案内', '掲示板'];
+
+const posts = [
+  { no: 37, name: '山ちゃん', date: '2013/07/03 19:02', text: '天さん、あれから音沙汰ないの?あの〜、還種だなんだみたいな。' },
+  { no: 38, name: 'タモト', date: '2013/07/03 19:40', text: 'そうみたいで。先生、無事だといいんですがね。' },
+  { no: 39, name: '山ちゃん', date: '2013/07/03 19:55', text: 'タモト君は恵理子さん家近いんだから、ちゃんと見てあげなさい。もしものことがあるかもしれないから。' },
+  { no: 40, name: 'タモト', date: '2013/07/03 20:10', text: 'そうですね、週末にでも顔を出してみます。' },
+];
+---
+
+<Layout title="掲示板 | 張岡園芸同好会">
+  <div class="eg">
+    <header class="eg-head">
+      <h1 class="eg-title">張岡園芸同好会</h1>
+    </header>
+
+    <nav class="eg-nav">
+      {menu.map((m) => (
+        <a href="#" onclick="return false;" class={m === '掲示板' ? 'current' : ''}>{m}</a>
+      ))}
+    </nav>
+
+    <main class="eg-main">
+      <h2 class="eg-h2">掲示板</h2>
+      <p class="eg-lead">会員のみなさまの交流の場です。園芸のことなど、ご自由にお書き込みください。</p>
+
+      <div class="eg-posts">
+        {posts.map((p) => (
+          <div class="eg-post">
+            <div class="eg-post-head">
+              <span class="eg-no">{p.no}</span>
+              <span class="eg-name">{p.name}</span>
+              <span class="eg-date">{p.date}</span>
+            </div>
+            <p class="eg-text">{p.text}</p>
+          </div>
+        ))}
+      </div>
+    </main>
+
+    <footer class="eg-foot">
+      <p>&copy; 張岡園芸同好会</p>
+      <p>このWebサイトの内容はすべてフィクションであり、実在の人物・団体とは一切関係がありません。</p>
+    </footer>
+  </div>
+</Layout>
+
+<style is:global>
+  .eg { background: #fbfaf5; color: #333; min-height: 100vh; display: flex; flex-direction: column; font-size: 15px; line-height: 1.8; }
+
+  /* ヘッダー:バラ園の写真を public/images/engei-header.jpg に置く。無い間は緑の背景になる */
+  .eg-head {
+    height: 220px;
+    display: flex; align-items: center; justify-content: center;
+    background:
+      linear-gradient(rgba(0,0,0,0.30), rgba(0,0,0,0.30)),
+      url('/images/engei.jpg') center / cover no-repeat,
+      #6f8f5f;
+  }
+  .eg-title { margin: 0; color: #fff; font-size: 2.2rem; letter-spacing: 0.15em; font-weight: bold; text-shadow: 0 2px 6px rgba(0,0,0,0.5); font-family: "Hiragino Mincho ProN", "Yu Mincho", serif; text-align: center; }
+
+  .eg-nav { display: flex; justify-content: center; flex-wrap: wrap; background: #4d6b3f; }
+  .eg-nav a { color: #fff; text-decoration: none; padding: 12px 26px; font-size: 0.95rem; cursor: default; }
+  .eg-nav a:hover { background: #5f7f4f; }
+  .eg-nav a.current { background: #3b5530; }
+
+  .eg-main { flex: 1; width: 100%; max-width: 760px; margin: 0 auto; padding: 28px 20px 40px; box-sizing: border-box; }
+  .eg-h2 { font-size: 1.3rem; margin: 0 0 6px; padding-bottom: 8px; border-bottom: 2px solid #8fae6e; color: #3b5530; }
+  .eg-lead { font-size: 0.85rem; color: #777; margin: 8px 0 20px; }
+
+  .eg-post { background: #fff; border: 1px solid #d9dfcf; border-radius: 4px; padding: 10px 16px; margin-bottom: 10px; }
+  .eg-post-head { display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: baseline; font-size: 0.85rem; }
+  .eg-no { font-weight: bold; color: #4d6b3f; }
+  .eg-name { font-weight: bold; color: #2f5d8a; }
+  .eg-date { color: #888; font-size: 0.78rem; }
+  .eg-text { margin: 6px 0 0; }
+
+  .eg-foot { text-align: center; font-size: 12px; color: #777; background: #eef1e6; border-top: 1px solid #d9dfcf; padding: 16px; }
+  .eg-foot p { margin: 2px 0; }
+
+  @media (max-width: 640px) {
+    .eg-head { height: 160px; }
+    .eg-title { font-size: 1.6rem; }
+    .eg-nav a { padding: 10px 14px; }
+  }
+</style>

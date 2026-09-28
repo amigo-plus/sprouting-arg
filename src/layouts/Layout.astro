@@ -170,8 +170,36 @@ const { title } = Astro.props;
       "/": { id: "01", title: "Search" },
       "/contents/y-chat": { id: "02", title: "Y.com - チャット" },
       "/contents/matsuru-city": { id: "03", title: "真蔓市 - Wakipedia", queryNote: "keyword:「真蔓」" },
-      "/contents/index": { id: "04", title: "10ジローの庭園日記", queryNote: "keyword:「哥間村」"}
+      "/contents/10jiro": { id: "04", title: "10ジローの庭園日記", queryNote: "keyword:「哥間村」"},
+      "/contents/10jiro/2013-05-14": { id: "05", title: "庭のバラに面白い変化がありました | 10ジローの庭園日記"},
+      "/contents/10jiro/2013-06-02": { id: "06", title: "山歩きのすすめ | 10ジローの庭園日記"},
+      "/contents/10jiro/2013-06-04": { id: "07", title: "少し困ったことになりました | 10ジローの庭園日記"},
+      "/contents/10jiro/2013-06-07": { id: "08", title: "哥間村という場所 | 10ジローの庭園日記"},
+      "/contents/10jiro/2013-06-09": { id: "09", title: "葬儀に参列しました | 10ジローの庭園日記"},
+      "/contents/10jiro/2013-06-11": { id: "10", title: "土について調べています | 10ジローの庭園日記"},
+      "/contents/10jiro/2013-06-13": { id: "11", title: "最近頭痛が酷い| 10ジローの庭園日記"},
+      "/contents/engei-bbs": { id: "12", title: "掲示板 | 張岡園芸同好会", queryNote: "keyword:「還種」" },
+      "/contents/": { id: "13", title: "", queryNote: "keyword:「深見天次郎」" },
     };
+
+    const norm = (s) => s.replace(/\/$/, "") || "/";
+
+    function recordVisit() {
+      const path = norm(window.location.pathname.replace(/\/index\.html$/, "/"));
+      const matchedKey = Object.keys(PAGE_REGISTRY).find((key) => {
+        const k = norm(key);
+        return path === k || (k !== "/" && (path.endsWith(k) || path.includes(k + "/")));
+      });
+      if (!matchedKey) return;
+
+      const entry = PAGE_REGISTRY[matchedKey];
+      const visited = JSON.parse(localStorage.getItem("discoveredPages") || "{}");
+      if (!visited[matchedKey]) {
+        visited[matchedKey] = { ...entry, url: entry.url ?? matchedKey };
+        localStorage.setItem("discoveredPages", JSON.stringify(visited));
+      }
+    }
+    recordVisit();
 
     function recordVisit() {
       const path = window.location.pathname.replace(/\/index\.html$/, "/").replace(/\/$/, "") || "/";
