@@ -1,21 +1,24 @@
 {
-  "真蔓": [
-    {
-      "title": "真蔓市 - Wakipedia",
-      "url": "/wiki/matsuru-city",
-      "snippet": "真蔓市（まつるし）は、張岡県西部に位置する市。1990年代後半の土砂災害以降……"
-    },
-    {
-      "title": "【郷土史】真蔓地区における民間伝承と祭祀",
-      "url": "#",
-      "snippet": "真蔓地方に伝わる特殊な風習と「言葉」に関する記録……"
-    }
-  ],
-  "イルマ": [
-    {
-      "title": "イルマのオカルトブログ",
-      "url": "/contents/y-chat",
-      "snippet": "オカルト好きなイルマによるメッセージログ。"
-    }
-  ]
+  "真蔓": {
+    "count": 4820,
+    "results": [
+      {
+        "title": "真蔓市 - Wakipedia",
+        "url": "/contents/matsuru-city",
+        "displayUrl": "https://wakipedia.example.org › wiki › 真蔓市",
+        "snippet": "真蔓市（まつるし）は、張岡県西部に位置する市。県西部の山間部と平野部の境界に位置し … 詳細を表示"
+      }
+    ]
+  },
+  "哥間村":{
+    "count": 37,
+    "results":[
+      {
+        "title": "10ジローの庭園日記",
+        "url": "/contents/10jiro/",
+        "displayUrl": "https://10jiro-plants.example.com",
+        "snippet": "植物が好きなおじさんです。庭いじりと山歩きが趣味。珍しい植物を見つけるとつい追いかけて … 詳細を表示"
+      }
+    ]
+  }
 }

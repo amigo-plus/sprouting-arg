@@ -1,0 +1,128 @@
+---
+// 配置先: src/pages/wiki/matsuru-city.astro
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="真蔓市 - Wakipedia">
+  <div class="wk">
+    <header class="wk-top">
+      <a href="#" class="wk-logo">Wakipedia</a>
+       <form class="wk-search" onsubmit="return false;">
+        <input type="text" placeholder="Wakipediaを検索" />
+        <button type="submit">検索</button>
+      </form>
+    </header>
+
+    <div class="wk-body">
+      <article class="wk-article">
+        <h1 class="wk-title">真蔓市</h1>
+        <div class="wk-sub">出典: フリー百科事典『Wakipedia』</div>
+
+        <aside class="wk-infobox">
+          <div class="ib-title">真蔓市</div>
+          <div class="ib-sub">まつるし</div>
+          <table>
+            <tr><th>県</th><td>張岡県</td></tr>
+            <tr><th>市制施行</th><td>1972年</td></tr>
+            <tr><th>面積</th><td>412.6 km²</td></tr>
+            <tr><th>総人口</th><td>62,318人<br /><small>(2020年国勢調査)</small></td></tr>
+            <tr><th>市の花</th><td>フジ</td></tr>
+            <tr><th>市章</th><td>「真」の字に蔓の意匠を組み合わせたもの</td></tr>
+          </table>
+        </aside>
+
+        <p><b>真蔓市</b>(まつるし)は、<a href="#">張岡県</a>西部に位置する<a href="#">市</a>。</p>
+        <p>県西部の山間部と平野部の境界に位置し、市域の西部から北部にかけては山地に囲まれている。市街地は東部に集中する一方、西部から北部にかけては山林や農地が多く、小規模な集落が点在している。古くから複数の町村によって形成されてきた地域であり、現在も地域によって町並みや文化に差がみられる。</p>
+
+        <nav class="wk-toc">
+          <div class="toc-title">目次</div>
+          <ol>
+            <li><a href="#geo">地理</a></li>
+            <li><a href="#history">歴史</a></li>
+            <li><a href="#culture">宗教・文化</a></li>
+            <li><a href="#towns">旧町村</a></li>
+            <li><a href="#notes">脚注</a></li>
+          </ol>
+        </nav>
+
+        <h2 id="geo">地理</h2>
+        <p>市の西部から北部にかけて山地が広がっており、山間部では現在も小規模な集落が多い。市街地周辺では住宅地や商業施設の整備が進んでおり、山間部とは景観に大きな違いがある。</p>
+        <p>市内には複数の<a href="#">河川</a>が流れ、山間部から市街地へ向かって流れる河川沿いに集落が形成されている。</p>
+
+        <h2 id="history">歴史</h2>
+        <p>現在の真蔓市を構成する地域には、かつて複数の町村が存在していた。</p>
+        <p>1998年の大規模な<a href="#">土砂災害</a>では山間部の複数の集落が被害を受け、一部の集落では住民の集団移転が行われた<sup class="need">[要出典]</sup>。平成期以降の<a href="#">市町村合併</a>・行政区域の再編により現在の市域が形成され、旧町村の名称は現在も地区名として残っている<sup class="ref"><a href="#notes">[1]</a></sup>。</p>
+        <p>山間部では古くからの集落や<a href="#">神社</a>が比較的多く残されており、地域ごとに独自の祭事や風習がみられる。</p>
+
+        <h2 id="culture">宗教・文化</h2>
+        <p>市内には多数の神社が存在する。特に山間部では、山や森林、河川などの自然物を信仰の対象とする古くからの風習が残っているとされる<sup class="ref"><a href="#notes">[2]</a></sup>。これらの風習は地域によって異なり、現在では祭礼や地域行事の一部として行われているものが多い。</p>
+        <p>一方で、一部の集落の祭祀については、公的な記録が乏しいとされる<sup class="need">[要出典]</sup>。</p>
+
+        <h2 id="towns">旧町村</h2>
+        <p>現在の真蔓市は、以下の地域を含む。</p>
+        <ul>
+          <li><a href="#">東真蔓町</a></li>
+          <li><a href="#">楢川町</a></li>
+          <li><a href="#">弥梨村</a></li>
+          <li><a href="#">小野瀬村</a></li>
+          <li><a href="#" class="new" title="このページはまだ存在しません">哥間村</a></li>
+          <li><a href="#">久留原村</a></li>
+        </ul>
+
+        <h2 id="notes">脚注</h2>
+        <ol class="wk-notes">
+          <li>『真蔓市史 通史編』真蔓市史編纂委員会、2004年。</li>
+          <li>『張岡県の民俗信仰』張岡県教育委員会、1987年。</li>
+        </ol>
+
+        <div class="wk-cat">カテゴリ: <a href="#">張岡県の市</a> | <a href="#">真蔓市</a></div>
+      </article>
+    </div>
+
+    <footer class="wk-footer">
+      <p>&copy; amigo</p>
+      <p>このWebサイトの内容はすべてフィクションであり、実在の人物・団体とは一切関係がありません。</p>
+    </footer>
+  </div>
+</Layout>
+
+<style is:global>
+  .wk { background: #fff; color: #202122; min-height: 100vh; display: flex; flex-direction: column; font-size: 15px; line-height: 1.7; }
+  .wk-top { display: flex; align-items: center; gap: 24px; padding: 10px 24px; border-bottom: 1px solid #a2a9b1; background: #f8f9fa; }
+  .wk-logo { font-family: Georgia, "Hiragino Mincho ProN", "Yu Mincho", serif; font-size: 22px; color: #202122; text-decoration: none; }
+  .wk-search { display: flex; flex: 1; max-width: 420px; }
+  .wk-search input { flex: 1; border: 1px solid #a2a9b1; padding: 6px 10px; font-size: 14px; border-radius: 2px 0 0 2px; }
+  .wk-search button { border: 1px solid #a2a9b1; border-left: none; background: #f8f9fa; padding: 6px 14px; cursor: pointer; border-radius: 0 2px 2px 0; }
+  .wk-body { flex: 1; width: 100%; max-width: 980px; margin: 0 auto; padding: 24px; box-sizing: border-box; }
+  .wk-article { overflow: hidden; }
+  .wk-title { font-family: Georgia, "Hiragino Mincho ProN", "Yu Mincho", serif; font-weight: normal; font-size: 1.9rem; border-bottom: 1px solid #a2a9b1; margin: 0 0 4px; }
+  .wk-sub { font-size: 12px; color: #54595d; margin-bottom: 16px; }
+  .wk-article h2 { font-family: Georgia, "Hiragino Mincho ProN", "Yu Mincho", serif; font-weight: normal; font-size: 1.45rem; border-bottom: 1px solid #a2a9b1; margin: 28px 0 10px; }
+  .wk-article a { color: #0645ad; text-decoration: none; }
+  .wk-article a:hover { text-decoration: underline; }
+  .wk-article a.new { color: #ba0000; }
+  .wk-article p { margin: 8px 0; }
+  .need { font-size: 0.75em; color: #0645ad; }
+  .ref a { font-size: 0.8em; }
+
+  .wk-infobox { float: right; width: 260px; margin: 0 0 16px 20px; border: 1px solid #a2a9b1; background: #f8f9fa; font-size: 13px; line-height: 1.5; }
+  .ib-title { text-align: center; font-weight: bold; font-size: 15px; background: #cfe3ff; padding: 8px; }
+  .ib-sub { text-align: center; font-size: 12px; padding: 4px 0 6px; color: #54595d; }
+  .wk-infobox table { width: 100%; border-collapse: collapse; }
+  .wk-infobox th { text-align: left; vertical-align: top; padding: 5px 8px; width: 34%; background: #eaf3ff; }
+  .wk-infobox td { padding: 5px 8px; }
+
+  .wk-toc { display: inline-block; border: 1px solid #a2a9b1; background: #f8f9fa; padding: 8px 16px; margin: 12px 0; font-size: 13px; }
+  .toc-title { text-align: center; font-weight: bold; }
+  .wk-toc ol { margin: 4px 0 0; padding-left: 20px; }
+
+  .wk-notes { font-size: 13px; padding-left: 24px; }
+  .wk-cat { margin-top: 28px; border: 1px solid #a2a9b1; background: #f8f9fa; padding: 6px 12px; font-size: 13px; clear: both; }
+  .wk-footer { text-align: center; font-size: 12px; color: #70757a; background: #f2f2f2; border-top: 1px solid #e4e4e4; padding: 16px; }
+  .wk-footer p { margin: 2px 0; }
+
+  @media (max-width: 640px) {
+    .wk-infobox { float: none; width: auto; margin: 12px 0; }
+    .wk-top { flex-wrap: wrap; gap: 10px; padding: 10px 16px; }
+  }
+</style>

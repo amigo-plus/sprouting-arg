@@ -65,9 +65,11 @@ import Layout from '../layouts/Layout.astro';
     }
 
     const db = await loadDB();
-    const results = db[query] || [];
+    const entry = db[query];
+    // 旧形式(配列だけ)の場合にも動くようにしてある
+    const results = Array.isArray(entry) ? entry : (entry?.results ?? []);
+    const count = Array.isArray(entry) ? results.length * 1280 : (entry?.count ?? results.length);
 
-    // 2. 検索結果メインエリアの生成
     if (results.length === 0) {
       resultArea.innerHTML = `
         <div class="b-card">
@@ -78,10 +80,10 @@ import Layout from '../layouts/Layout.astro';
         </div>`;
     } else {
       resultArea.innerHTML = `
-        <p class="b-count">約 ${results.length * 1280} 件のサイト</p>
+        <p class="b-count">約 ${count.toLocaleString()} 件のサイト</p>
         ${results.map((item: any) => `
           <article class="b-card">
-            <div class="b-card-url">${escapeHtml(item.url)}</div>
+            <div class="b-card-url">${escapeHtml(item.displayUrl ?? item.url)}</div>
             <h2 class="b-card-title"><a href="${item.url}">${escapeHtml(item.title)}</a></h2>
             <p class="b-card-snippet">${escapeHtml(item.snippet)}</p>
           </article>
@@ -203,18 +205,19 @@ import Layout from '../layouts/Layout.astro';
   }
 
   .b-main { flex: 1; }
-  .b-count { font-size: 13px; color: #666; margin-bottom: 16px; }
+  .b-count { font-size: 13px; color: #666; margin-bottom: 16px; margin: 0 0 20px; }
 
   .b-card {
     background: #fff;
-    padding: 12px 0;
+    padding: 0; 
     margin-bottom: 20px;
   }
 
-  .b-card-url { font-size: 12px; color: #444; margin-bottom: 4px; }
+  .b-card-url { font-size: 12px; color: #444; margin-bottom: 2px; margin: 0 0 2px;}
+  .b-card-title { margin: 0; line-height: 1.3; }
   .b-card-title a { color: #1a0dab; text-decoration: none; font-size: 18px; font-weight: 500; }
   .b-card-title a:hover { text-decoration: underline; }
-  .b-card-snippet { font-size: 13px; color: #3c4043; margin-top: 6px; line-height: 1.5; }
+  .b-card-snippet { font-size: 13px; color: #3c4043; margin-top: 6px; margin: 4px 0 0; line-height: 1.5; }
 
   /* ヒットしなかった場合のテキスト */
   .b-not-found-text {

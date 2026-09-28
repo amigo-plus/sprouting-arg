@@ -1,0 +1,62 @@
+---
+// 配置先: src/pages/contents/10jiro/[slug].astro
+import BlogLayout from '../../../layouts/BlogLayout.astro';
+import { posts, BLOG_BASE, BLOG_TITLE } from '../../../data/blogPosts';
+
+export function getStaticPaths() {
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+---
+
+<BlogLayout title={`${post.title} | ${BLOG_TITLE}`}>
+  <article>
+    <div class="bl-post-date">{post.date}</div>
+    <h1 class="bl-post-title">{post.title}</h1>
+    <div class="bl-post-body" set:html={post.body} />
+  </article>
+
+  <section class="bl-comments">
+    <h2 class="bl-comments-title">コメント({post.comments.length})</h2>
+    {post.comments.length === 0 ? (
+      <p class="bl-no-comment">コメントはまだありません。</p>
+    ) : (
+      <ul class="bl-comment-list">
+        {post.comments.map((c) => (
+          <li>
+            <div class="bl-comment-head">
+              <span class="bl-comment-name">{c.name}</span>
+              <span class="bl-comment-date">{c.date}</span>
+            </div>
+            <p class="bl-comment-text">{c.text}</p>
+          </li>
+        ))}
+      </ul>
+    )}
+  </section>
+
+  <div class="bl-back"><a href={`${BLOG_BASE}/`}>&lt; 記事一覧へ戻る</a></div>
+</BlogLayout>
+
+<style is:global>
+  .bl-post-date { font-size: 0.85rem; color: #6b7d5e; }
+  .bl-post-title { font-size: 1.4rem; margin: 4px 0 18px; padding-bottom: 10px; border-bottom: 2px solid #8fae6e; }
+  .bl-post-body p { margin: 0 0 1em; }
+  .bl-post-body ul { margin: 0 0 1em; padding-left: 1.4em; }
+  .bl-photo { border: 1px dashed #b7c8a4; background: #f4f7ef; color: #8a9a7c; font-size: 0.85rem; text-align: center; padding: 60px 16px; }
+
+  .bl-comments { margin-top: 36px; }
+  .bl-comments-title { font-size: 1rem; margin: 0 0 10px; padding: 6px 10px; background: #e9efe0; border-left: 4px solid #8fae6e; }
+  .bl-no-comment { color: #8a9a7c; font-size: 0.9rem; }
+  .bl-comment-list { list-style: none; margin: 0; padding: 0; }
+  .bl-comment-list li { padding: 10px 4px; border-bottom: 1px dotted #c4d2b3; }
+  .bl-comment-head { display: flex; gap: 12px; align-items: baseline; }
+  .bl-comment-name { font-weight: bold; font-size: 0.9rem; }
+  .bl-comment-date { font-size: 0.75rem; color: #8a9a7c; }
+  .bl-comment-text { margin: 4px 0 0; font-size: 0.92rem; }
+  .bl-back { margin-top: 28px; font-size: 0.9rem; }
+</style>

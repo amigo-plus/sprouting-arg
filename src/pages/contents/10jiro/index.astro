@@ -1,0 +1,35 @@
+---
+// 配置先: src/pages/contents/10jiro/index.astro
+import BlogLayout from '../../../layouts/BlogLayout.astro';
+import { posts, BLOG_BASE, BLOG_TITLE } from '../../../data/blogPosts';
+---
+
+<BlogLayout title={BLOG_TITLE}>
+  <h1 class="bl-h1">最新の記事</h1>
+
+  <ul class="bl-list">
+    {posts.map((p) => (
+      <li>
+        <span class="bl-date">{p.date}</span>
+        <a href={`${BLOG_BASE}/${p.slug}/`}>{p.title}</a>
+        <span class="bl-cnt">コメント({p.comments.length})</span>
+      </li>
+    ))}
+  </ul>
+
+  <div class="bl-pager">
+    <button type="button" class="bl-more">前の20件 &gt;</button>
+  </div>
+</BlogLayout>
+
+<style is:global>
+  .bl-h1 { font-size: 1.15rem; margin: 0 0 12px; padding-bottom: 8px; border-bottom: 2px solid #8fae6e; }
+  .bl-list { list-style: none; margin: 0; padding: 0; }
+  .bl-list li { padding: 12px 4px; border-bottom: 1px dotted #c4d2b3; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; }
+  .bl-date { color: #6b7d5e; font-size: 0.85rem; flex-shrink: 0; }
+  .bl-list a { font-size: 1.02rem; text-decoration: none; }
+  .bl-list a:hover { text-decoration: underline; }
+  .bl-cnt { font-size: 0.75rem; color: #8a9a7c; margin-left: auto; }
+  .bl-pager { text-align: center; margin-top: 24px; }
+  .bl-more { border: 1px solid #b7c8a4; background: #f4f7ef; color: #55634c; padding: 8px 24px; border-radius: 4px; cursor: pointer; font-size: 0.9rem; }
+</style>
