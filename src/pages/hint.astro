@@ -1,0 +1,206 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const pages = [
+  {
+    page: '3ページ目',
+    hints: [
+      '送られてきた画像を調べてみましょう。',
+      '文中に何か、見慣れない単語がありませんか？',
+    ],
+    answer: '検索「真蔓」',
+  },
+  {
+    page: '4ページ目',
+    hints: [
+      '3ページを読み進めてみましょう。',
+      '未だにリンクが作られていない地域があるようです。',
+    ],
+    answer: '検索「哥間村」',
+  },
+  {
+    page: '12ページ目',
+    hints: [
+      'ブログ内に何か気になる単語が出てきませんでしたか？',
+      '10ページを確認してみましょう。',
+    ],
+    answer: '検索「還種」',
+  },
+  {
+    page: '13ページ目',
+    hints: [
+      'ブログの内容、そして12ページから導き出せそうです。',
+      '10ジロー の本名を推理してみましょう。ブログのコメント欄は確認しましたか？',
+    ],
+    answer: '検索「深見天次郎」',
+  },
+  {
+    page: '14ページ目',
+    hints: [
+      '13ページを読み進めてみましょう。',
+      'とある人の名前が新しく出てきましたよね。',
+    ],
+    answer: '検索「物部庄太」',
+  },
+
+  // 以下40ページまで追加
+];
+---
+
+<Layout title="ヒント | 愚者に芽吹きの言葉を">
+  <main class="hint-page">
+
+    <header class="hint-header">
+      <p class="hint-label">HINT</p>
+      <h1>ヒントページ</h1>
+      <p>
+        進行に行き詰まった際にご利用ください。<br />
+        上から順番に確認することをおすすめします。
+      </p>
+    </header>
+
+    <section class="hint-list">
+
+      {pages.map((item) => (
+        <details class="hint-page-item">
+
+          <summary>
+            <span class="arrow">▶</span>
+            {item.page}
+          </summary>
+
+          <div class="hint-content">
+
+            <details>
+              <summary>ヒント1</summary>
+              <p>{item.hints[0]}</p>
+            </details>
+
+            <details>
+              <summary>ヒント2</summary>
+              <p>{item.hints[1]}</p>
+            </details>
+
+            <details class="answer">
+              <summary>答え</summary>
+              <p>{item.answer}</p>
+            </details>
+
+          </div>
+
+        </details>
+      ))}
+
+    </section>
+
+  </main>
+</Layout>
+
+<style>
+  .hint-page {
+    width: min(1100px, calc(100% - 80px));
+    margin: 0 auto;
+    padding: 60px 0 100px;
+    color: #333;
+    line-height: 1.8;
+  }
+
+  .hint-header {
+    margin-bottom: 35px;
+  }
+
+  .hint-label {
+    margin: 0;
+    color: #777;
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+  }
+
+  .hint-header h1 {
+    margin: 4px 0 12px;
+    font-size: 2.2rem;
+  }
+
+  .hint-header p {
+    color: #666;
+  }
+
+  .hint-list {
+    border-top: 1px solid #ccc;
+  }
+
+  .hint-page-item {
+    border-bottom: 1px solid #ccc;
+  }
+
+  .hint-page-item > summary {
+    padding: 18px 20px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    background: #fafafa;
+    list-style: none;
+  }
+
+  .hint-page-item > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .hint-page-item > summary:hover {
+    background: #f0f0f0;
+  }
+
+  .arrow {
+    display: inline-block;
+    width: 25px;
+    color: #777;
+  }
+
+  .hint-page-item[open] > summary .arrow {
+    transform: rotate(90deg);
+  }
+
+  .hint-content {
+    padding: 10px 25px 25px 45px;
+    background: #fff;
+  }
+
+  .hint-content details {
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    background: #fafafa;
+  }
+
+  .hint-content summary {
+    padding: 12px 16px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  .hint-content p {
+    margin: 0;
+    padding: 12px 16px 15px;
+    border-top: 1px solid #ddd;
+  }
+
+  .answer {
+    margin-top: 18px !important;
+    border-color: #da6464 !important;
+  }
+
+  .answer summary {
+    background: #ffe3e3;
+  }
+
+  @media (max-width: 700px) {
+    .hint-page {
+      width: calc(100% - 30px);
+      padding-top: 35px;
+    }
+
+    .hint-content {
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+  }
+</style>
