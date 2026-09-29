@@ -17,7 +17,7 @@
         "title": "10ジローの庭園日記",
         "url": "/contents/10jiro/",
         "displayUrl": "https://10jiro-plants.example.com",
-        "snippet": "植物が好きなおじさんです。庭いじりと山歩きが趣味。珍しい植物を見つけるとつい追いかけて … 詳細を表示"
+        "snippet": "植物が好きなおじさんです。庭いじりと山歩きが趣味。珍しい植物を見つけるとつい … 詳細を表示"
       }
     ]
   },
@@ -28,7 +28,29 @@
       "title": "掲示板 | 張岡園芸同好会",
       "url": "/contents/engei-bbs",
       "displayUrl": "https://hariokaengei.example.jp › bbs",
-      "snippet": "天さん、あれから音沙汰ないの?あの〜、還種だなんだみたいな。/ そうみたいで。先生、無事だといいんですがね … 詳細を表示"
+      "snippet": "天さん、あれから音沙汰ないの?あの〜、還種だなんだみたいな。/ そうみたいで。先生 … 詳細を表示"
+    }
+  ]
+},
+"深見天次郎": {
+  "count": 6,
+  "results": [
+    {
+      "title": "山中で男性の遺体 行方不明の植物研究者 真蔓市 - Yeaah!ニュース",
+      "url": "/contents/yeaah-news",
+      "displayUrl": "https://news.yeaah.example.jp › articles › 20130723",
+      "snippet": "23日午前、張岡県真蔓市の山間部で、男性の遺体が見つかった。県警によると、所持品などから … 詳細を表示"
+    }
+  ]
+},
+"物部庄太": {
+  "count": 3,
+  "results": [
+    {
+      "title": "物部研究室 | 張岡大学理学部 植物生態学研究室",
+      "url": "/contents/monobe-lab",
+      "displayUrl": "https://www.harioka-u.example.ac.jp › bio › monobe-lab",
+      "snippet": "山間地域における植物の生育環境と生態系の変化について、現地調査を中心とした研究を行っています。 … 詳細を表示"
     }
   ]
 }

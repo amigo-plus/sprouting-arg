@@ -1,0 +1,113 @@
+---
+// 配置先: src/pages/contents/yeaah-news.astro
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="山中で男性の遺体 行方不明の植物研究者 真蔓市 - Yeaah!ニュース">
+  <div class="yn">
+    <header class="yn-head">
+      <div class="yn-head-inner">
+        <span class="yn-logo">Yeaah<span class="yn-logo-ex">!</span></span>
+        <span class="yn-logo-sub">ニュース</span>
+      </div>
+    </header>
+
+    <nav class="yn-cat">
+      <a href="#" onclick="return false;">主要</a>
+      <a href="#" onclick="return false;" class="current">社会</a>
+      <a href="#" onclick="return false;">経済</a>
+      <a href="#" onclick="return false;">政治</a>
+      <a href="#" onclick="return false;">国際</a>
+      <a href="#" onclick="return false;">スポーツ</a>
+      <a href="#" onclick="return false;">エンタメ</a>
+    </nav>
+
+    <main class="yn-main">
+      <article class="yn-article">
+        <div class="yn-cat-tag">社会</div>
+        <h1 class="yn-title">山中で男性の遺体 行方不明の植物研究者か 真蔓市</h1>
+        <div class="yn-meta">7/23(火) 17:42配信　張岡日報</div>
+
+        <div class="yn-body">
+          <p>23日午前、張岡県真蔓市の山間部で、男性の遺体が見つかった。県警によると、所持品などから、6月下旬から行方が分からなくなっていた同県在住の植物研究者、深見天次郎さん(58)とみて、身元の確認を進めている。</p>
+
+          <p>県警によると、深見さんは6月上旬に植物調査のため入山し、下旬に足を骨折して山中の集落にとどまっていた。集落の住民を通じて役場に連絡が入っており、快方を待って下山を手助けする予定だったが、住民によると、深見さんは体調が回復したと言って森へ向かい、そのまま行方が分からなくなったという。役場の職員が集落を訪れた際には既におらず、家族からの届け出を受けて捜索が行われていた。</p>
+
+          <p>遺体は、集落から離れた斜面付近で、林業関係者が見つけて通報した。県警は、遭難したものとみて、詳しい死因を調べている。</p>
+
+          <div class="yn-quote-box">
+            <div class="yn-quote-title">専門家「単独での下山は危険」</div>
+            <p>山岳地帯の環境に詳しい張岡大学理学部の物部庄太准教授(植物生態学)は、こう話している。</p>
+            <p class="yn-quote">「快復した直後は注意力や体力が本人の感覚ほど戻っていないことがあります。特に単独での行動は、些細な判断ミスが命取りになりかねません」</p>
+          </div>
+        </div>
+
+        <div class="yn-tags">
+          <span>#真蔓市</span>
+          <span>#遭難</span>
+          <span>#植物研究</span>
+        </div>
+      </article>
+
+      <aside class="yn-related">
+        <div class="yn-related-title">関連記事</div>
+        <ul>
+          <li><a href="#" onclick="return false;">県内、今年の山岳遭難件数が増加傾向</a></li>
+          <li><a href="#" onclick="return false;">真蔓市、山間部の道路復旧工事が完了</a></li>
+          <li><a href="#" onclick="return false;">単独登山の心得、専門家に聞く</a></li>
+        </ul>
+      </aside>
+    </main>
+
+    <footer class="yn-footer">
+      <p>このWebサイトの内容はすべてフィクションであり、実在の人物・団体とは一切関係がありません。</p>
+    </footer>
+  </div>
+</Layout>
+
+<style is:global>
+  .yn { background: #f5f6f7; color: #1a1a1a; min-height: 100vh; display: flex; flex-direction: column; font-size: 15px; line-height: 1.85; }
+
+  .yn-head { background: #fff; border-bottom: 1px solid #e2e4e7; }
+  .yn-head-inner { max-width: 980px; margin: 0 auto; padding: 14px 20px; display: flex; align-items: baseline; gap: 10px; }
+  .yn-logo { font-size: 1.7rem; font-weight: 900; color: #ff0033; font-family: Arial, "Hiragino Sans", sans-serif; }
+  .yn-logo-ex { color: #222; }
+  .yn-logo-sub { font-size: 0.95rem; color: #555; font-weight: bold; }
+
+  .yn-cat { background: #222; display: flex; overflow-x: auto; }
+  .yn-cat a { color: #ddd; text-decoration: none; padding: 10px 18px; font-size: 0.85rem; white-space: nowrap; cursor: default; }
+  .yn-cat a:hover { background: #333; color: #fff; }
+  .yn-cat a.current { background: #ff0033; color: #fff; font-weight: bold; }
+
+  .yn-main { flex: 1; width: 100%; max-width: 980px; margin: 20px auto; padding: 0 20px; box-sizing: border-box; display: flex; gap: 28px; align-items: flex-start; }
+
+  .yn-article { flex: 1; min-width: 0; background: #fff; border: 1px solid #e2e4e7; border-radius: 4px; padding: 24px 28px; }
+  .yn-cat-tag { display: inline-block; background: #ff0033; color: #fff; font-size: 0.72rem; padding: 2px 8px; border-radius: 2px; margin-bottom: 10px; }
+  .yn-title { font-size: 1.5rem; line-height: 1.5; margin: 0 0 8px; }
+  .yn-meta { font-size: 0.8rem; color: #767a80; margin-bottom: 18px; padding-bottom: 16px; border-bottom: 1px solid #eceef0; }
+  .yn-body p { margin: 0 0 1.1em; }
+
+  .yn-quote-box { background: #f5f6f7; border-left: 4px solid #ff0033; padding: 14px 18px; margin: 18px 0; }
+  .yn-quote-title { font-weight: bold; margin-bottom: 8px; }
+  .yn-quote { color: #333; }
+
+  .yn-tags { margin-top: 22px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .yn-tags span { background: #eef1f4; color: #556; font-size: 0.78rem; padding: 4px 10px; border-radius: 12px; }
+
+  .yn-related { width: 250px; flex-shrink: 0; background: #fff; border: 1px solid #e2e4e7; border-radius: 4px; padding: 16px 18px; }
+  .yn-related-title { font-weight: bold; font-size: 0.95rem; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 2px solid #ff0033; }
+  .yn-related ul { list-style: none; margin: 0; padding: 0; }
+  .yn-related li { padding: 8px 0; border-bottom: 1px dotted #e2e4e7; font-size: 0.85rem; }
+  .yn-related a { color: #333; text-decoration: none; }
+  .yn-related a:hover { text-decoration: underline; }
+
+  .yn-footer { text-align: center; font-size: 12px; color: #767a80; background: #eceef0; border-top: 1px solid #e2e4e7; padding: 16px; }
+  .yn-footer p { margin: 2px 0; }
+
+  @media (max-width: 720px) {
+    .yn-main { flex-direction: column; padding: 0 14px; }
+    .yn-related { width: 100%; box-sizing: border-box; }
+    .yn-article { width: 100%; box-sizing: border-box; padding: 18px; }
+    .yn-title { font-size: 1.25rem; }
+  }
+</style>

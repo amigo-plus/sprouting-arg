@@ -1,0 +1,383 @@
+---
+// 配置先: src/pages/contents/monobe-lab-2013.astro
+// リニューアル前(2013年頃)のキャッシュという体裁。現行サイトのお知らせ欄からのみ辿り着ける。
+import Layout from '../../layouts/Layout.astro';
+
+const history = [
+  { year: '1975年', text: '4月8日、張岡県生まれ。' },
+  { year: '1998年', text: '張岡大学理学部生物学科 卒業。' },
+  { year: '2000年', text: '張岡大学大学院理学研究科 修士課程修了。' },
+  { year: '2004年', text: '張岡大学大学院理学研究科 博士課程修了、博士(理学)取得。' },
+  { year: '2005年', text: '張岡大学理学部 助手として着任。' },
+  { year: '2011年', text: '張岡大学理学部 准教授に昇任。植物生態学研究室(物部研究室)を主宰。' },
+  { year: '2013年', text: '国立研究開発法人 日本生命生態保全機構との共同調査事業に参加。' },
+];
+
+const members2013 = [
+  { grade: 'D1', name: '朽木 拓真', theme: '山岳地域の土壌微生物相調査' },
+  { grade: 'M2', name: '早乙女 楓', theme: '希少植物の生育環境評価' },
+  { grade: 'M1', name: '桂 悠人', theme: '植生図の作成手法の検討' },
+];
+---
+
+<Layout title="物部研究室 | 張岡大学理学部 植物生態学研究室(キャッシュ)">
+  <div class="mb mb-cache">
+    <div class="mb-cache-bar">このページは過去のアーカイブです。掲載内容は現在の情報と異なる場合があります。</div>
+
+    <header class="mb-head">
+      <div class="mb-head-inner">
+        <span class="mb-univ">張岡大学 理学部</span>
+        <h1 class="mb-title">植物生態学研究室(物部研究室)</h1>
+      </div>
+    </header>
+
+    <nav class="mb-nav">
+      <a href="#" onclick="return false;" class="current">トップ</a>
+      <a href="#" onclick="return false;">研究室について</a>
+      <a href="#" onclick="return false;">研究内容</a>
+      <a href="#" onclick="return false;">メンバー</a>
+      <a href="#" onclick="return false;">業績</a>
+      <a href="#" onclick="return false;">アクセス</a>
+    </nav>
+
+    <main class="mb-main">
+      <section class="mb-section">
+        <h2>研究室について</h2>
+        <p>当研究室では、山間地域における植物の生育環境と生態系の変化について、現地調査を中心とした研究を行っています。特に張岡県西部の山岳地帯を主なフィールドとし、地域の自然環境の保全と、地域社会への還元を目指した活動を続けています。</p>
+      </section>
+
+      <section class="mb-section">
+        <h2>研究内容</h2>
+        <p>張岡県山間部における植物相・生育環境の継続調査を軸に、以下のようなテーマに取り組んでいます。</p>
+        <ul>
+          <li>山岳地域における希少植物の分布調査</li>
+          <li>土壌環境と植生の関係についての研究</li>
+          <li>地域の自然資源を活かした観光振興への協力</li>
+          <li>山間集落における獣害・植生変化への対応支援</li>
+        </ul>
+        <p>これらの調査で得られた知見は、地域住民の生活環境の維持や、山間地域の観光資源としての活用にも役立てられています。</p>
+
+        <div class="mb-note">
+          <p>本年度より、<strong>国立研究開発法人 日本生命生態保全機構</strong>との共同調査事業に参加しております。詳細は決まり次第、追ってお知らせいたします。</p>
+        </div>
+      </section>
+
+      <section class="mb-section">
+        <h2>メンバー</h2>
+        <table class="mb-table">
+          <tr><th>准教授</th><td>物部 庄太(ものべ しょうた)</td></tr>
+          <tr><th>専門分野</th><td>植物生態学、山岳環境保全</td></tr>
+          <tr><th>所属学会</th><td>日本植物学会、日本生態学会</td></tr>
+        </table>
+
+        <h3 class="mb-h3">大学院生</h3>
+        <table class="mb-table">
+          {members2013.map((m) => (
+            <tr><th>{m.grade}</th><td>{m.name} <span class="mb-theme">({m.theme})</span></td></tr>
+          ))}
+        </table>
+
+        <h3 class="mb-h3">略歴</h3>
+        <ul class="mb-history">
+          {history.map((h) => (
+            <li><span class="mb-year">{h.year}</span><span class="mb-text">{h.text}</span></li>
+          ))}
+        </ul>
+      </section>
+
+      <section class="mb-section">
+        <h2>業績(抜粋)</h2>
+        <ul class="mb-pub">
+          <li>物部庄太「張岡県西部山岳地域における植生分布の経年変化」張岡大学理学部紀要, 2009年.</li>
+          <li>物部庄太「山間集落の土壌環境と植物群落の関係についての一考察」日本生態学会誌, 2012年.</li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="mb-footer">
+      <p>&copy; 張岡大学理学部 物部研究室</p>
+      <p>このWebサイトの内容はすべてフィクションであり、実在の人物・団体とは一切関係がありません。</p>
+    </footer>
+  </div>
+</Layout>
+
+<style is:global>
+  /*
+   * 2010年代前半～中盤くらいの大学研究室サイト風
+   * ・固定幅
+   * ・角ばったデザイン
+   * ・青系の大学サイトカラー
+   * ・細い罫線
+   * ・やや小さめの文字
+   * ・余白は現代サイトほど広くしない
+   */
+
+  .mb {
+    background: #f7f7f7;
+    color: #333;
+    min-height: 100vh;
+    font-family:
+      "メイリオ",
+      Meiryo,
+      "Hiragino Kaku Gothic ProN",
+      "ヒラギノ角ゴ ProN W3",
+      Arial,
+      sans-serif;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  /* キャッシュ表示 */
+  .mb-cache-bar {
+    background: #fff8d8;
+    color: #665b32;
+    text-align: center;
+    font-size: 11px;
+    padding: 5px 10px;
+    border-bottom: 1px solid #ddd4a9;
+  }
+
+  /* ヘッダー */
+  .mb-head {
+    background: #164d7a;
+    border-bottom: 4px solid #0d3658;
+  }
+
+  .mb-head-inner {
+    width: 900px;
+    margin: 0 auto;
+    padding: 18px 20px 14px;
+    box-sizing: border-box;
+  }
+
+  .mb-univ {
+    display: block;
+    color: #d8e6f1;
+    font-size: 12px;
+    margin-bottom: 3px;
+  }
+
+  .mb-title {
+    color: #fff;
+    font-size: 21px;
+    line-height: 1.4;
+    margin: 0;
+    font-weight: normal;
+    letter-spacing: 0.03em;
+  }
+
+  /* ナビ */
+  .mb-nav {
+    width: 100%;
+    background: #eee;
+    border-bottom: 1px solid #bbb;
+    border-top: 1px solid #315f82;
+    display: flex;
+    justify-content: center;
+  }
+
+  .mb-nav a {
+    display: block;
+    width: 130px;
+    box-sizing: border-box;
+    color: #164d7a;
+    background: linear-gradient(#fff, #e9e9e9);
+    text-decoration: none;
+    text-align: center;
+    padding: 7px 10px;
+    font-size: 12px;
+    border-left: 1px solid #ccc;
+    cursor: default;
+  }
+
+  .mb-nav a:last-child {
+    border-right: 1px solid #ccc;
+  }
+
+  .mb-nav a:hover {
+    background: #dfeaf3;
+    color: #0b3e68;
+  }
+
+  .mb-nav a.current {
+    background: #fff;
+    color: #333;
+    font-weight: bold;
+    border-bottom: 2px solid #fff;
+    margin-bottom: -1px;
+  }
+
+  /* 本文 */
+  .mb-main {
+    width: 900px;
+    margin: 18px auto 30px;
+    padding: 0 20px;
+    box-sizing: border-box;
+    background: #fff;
+    border: 1px solid #ccc;
+  }
+
+  .mb-section {
+    margin: 0;
+    padding: 20px 4px 18px;
+    border-bottom: 1px dotted #aaa;
+  }
+
+  .mb-section:last-child {
+    border-bottom: none;
+  }
+
+  .mb-section h2 {
+    color: #164d7a;
+    font-size: 16px;
+    font-weight: bold;
+    border-left: 5px solid #164d7a;
+    border-bottom: 1px solid #aaa;
+    padding: 4px 8px;
+    margin: 0 0 12px;
+    background: #f2f5f7;
+  }
+
+  .mb-section p {
+    margin: 0 0 10px;
+  }
+
+  .mb-section ul {
+    margin: 5px 0 10px;
+    padding-left: 24px;
+  }
+
+  .mb-section li {
+    margin: 2px 0;
+  }
+
+  /* 共同調査のお知らせ */
+  .mb-note {
+    background: #f5f8fb;
+    border: 1px solid #c8d6e1;
+    padding: 10px 14px;
+    margin-top: 14px;
+    font-size: 12px;
+  }
+
+  .mb-note p {
+    margin: 0;
+  }
+
+  .mb-note strong {
+    color: #164d7a;
+  }
+
+  /* 表 */
+  .mb-table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 8px 0 15px;
+    font-size: 12px;
+  }
+
+  .mb-table th {
+    text-align: left;
+    background: #edf2f5;
+    color: #444;
+    font-weight: bold;
+    width: 120px;
+    padding: 6px 9px;
+    border: 1px solid #c8c8c8;
+  }
+
+  .mb-table td {
+    padding: 6px 9px;
+    border: 1px solid #c8c8c8;
+    background: #fff;
+  }
+
+  .mb-theme {
+    color: #777;
+    font-size: 11px;
+  }
+
+  /* 小見出し */
+  .mb-h3 {
+    color: #164d7a;
+    font-size: 13px;
+    font-weight: bold;
+    margin: 18px 0 6px;
+    padding: 3px 6px;
+    border-bottom: 1px solid #bbb;
+  }
+
+  /* 略歴 */
+  .mb-history {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 12px;
+  }
+
+  .mb-history li {
+    display: flex;
+    padding: 4px 6px;
+    border-bottom: 1px dotted #ccc;
+  }
+
+  .mb-history li:nth-child(even) {
+    background: #fafafa;
+  }
+
+  .mb-year {
+    color: #164d7a;
+    font-weight: bold;
+    width: 65px;
+    flex-shrink: 0;
+  }
+
+  .mb-text {
+    flex: 1;
+  }
+
+  /* 業績 */
+  .mb-pub {
+    font-size: 12px;
+    color: #444;
+    margin: 0;
+  }
+
+  .mb-pub li {
+    margin-bottom: 5px;
+  }
+
+  /* フッター */
+  .mb-footer {
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    font-size: 10px;
+    color: #777;
+    background: #eee;
+    border-top: 1px solid #bbb;
+    padding: 12px;
+  }
+
+  .mb-footer p {
+    margin: 2px 0;
+  }
+
+  /* 2010年代サイトっぽく、基本は固定幅。
+     狭い画面だけ最低限崩す。 */
+  @media (max-width: 940px) {
+    .mb-head-inner,
+    .mb-main {
+      width: 100%;
+    }
+
+    .mb-nav {
+      justify-content: flex-start;
+      overflow-x: auto;
+    }
+
+    .mb-nav a {
+      flex: 0 0 110px;
+    }
+  }
+</style>

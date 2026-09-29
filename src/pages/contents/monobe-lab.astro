@@ -1,0 +1,163 @@
+---
+// 配置先: src/pages/contents/monobe-lab.astro
+// 現行(2024年リニューアル後)の研究室サイト。機構名は出さない。
+import Layout from '../../layouts/Layout.astro';
+
+const nav = ['トップ', '研究内容', 'メンバー', '業績', 'アクセス'];
+
+const history = [
+  { year: '1975年', text: '4月8日、張岡県生まれ。' },
+  { year: '1998年', text: '張岡大学理学部生物学科 卒業。' },
+  { year: '2000年', text: '張岡大学大学院理学研究科 修士課程修了。' },
+  { year: '2004年', text: '張岡大学大学院理学研究科 博士課程修了、博士(理学)取得。' },
+  { year: '2005年', text: '張岡大学理学部 助手として着任。' },
+  { year: '2011年', text: '張岡大学理学部 准教授に昇任。植物生態学研究室(物部研究室)を主宰。' },
+  { year: '2015年', text: 'ウェブサイトをリニューアル。' },
+  { year: '2022年', text: '張岡県山間部緑化推進事業 委員に就任。' },
+];
+
+const members = [
+  { grade: 'D1', name: '柚木 彩', theme: '土壌pHと植生分布の関係' },
+  { grade: 'M2', name: '瀬戸口 蓮', theme: '希少種の生育適地推定' },
+  { grade: 'M1', name: '本多 千夏', theme: '山間集落周辺の植生モニタリング' },
+];
+
+const news = [
+  { date: '2024/04/01', text: '新年度の研究室配属について、掲示板をご確認ください。' },
+  { date: '2023/09/12', text: '瀬戸口が日本生態学会にて発表を行いました。' },
+  { date: '2015/03/20', text: 'ウェブサイトをリニューアルいたしました。旧サイトはこちら', archiveLink: true },
+];
+---
+
+<Layout title="物部研究室 | 張岡大学理学部 植物生態学研究室">
+  <div class="mb">
+    <header class="mb-head">
+      <div class="mb-head-inner">
+        <span class="mb-univ">張岡大学 理学部</span>
+        <h1 class="mb-title">植物生態学研究室(物部研究室)</h1>
+      </div>
+    </header>
+
+    <nav class="mb-nav">
+      {nav.map((n) => (
+        <a href="#" onclick="return false;" class={n === 'トップ' ? 'current' : ''}>{n}</a>
+      ))}
+    </nav>
+
+    <main class="mb-main">
+      <section class="mb-section">
+        <h2>研究室について</h2>
+        <p>当研究室では、山間地域における植物の生育環境と生態系の変化について、現地調査を中心とした研究を行っています。特に張岡県西部の山岳地帯を主なフィールドとし、地域の自然環境の保全と、地域社会への還元を目指した活動を続けています。</p>
+      </section>
+
+      <section class="mb-section">
+        <h2>お知らせ</h2>
+        <ul class="mb-news">
+          {news.map((n) => (
+            <li>
+              <span class="mb-news-date">{n.date}</span>
+              <span class="mb-news-text">
+                {n.text}
+                {n.archiveLink && <a href="/contents/monobe-lab-2013">[旧サイト]</a>}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section class="mb-section">
+        <h2>研究内容</h2>
+        <p>張岡県山間部における植物相・生育環境の継続調査を軸に、以下のようなテーマに取り組んでいます。</p>
+        <ul>
+          <li>山岳地域における希少植物の分布調査</li>
+          <li>土壌環境と植生の関係についての研究</li>
+          <li>地域の自然資源を活かした観光振興への協力</li>
+          <li>山間集落における獣害・植生変化への対応支援</li>
+        </ul>
+        <p>これらの調査で得られた知見は、地域住民の生活環境の維持や、山間地域の観光資源としての活用にも役立てられています。</p>
+      </section>
+
+      <section class="mb-section">
+        <h2>メンバー</h2>
+        <table class="mb-table">
+          <tr><th>准教授</th><td>物部 庄太(ものべ しょうた)</td></tr>
+          <tr><th>専門分野</th><td>植物生態学、山岳環境保全</td></tr>
+          <tr><th>所属学会</th><td>日本植物学会、日本生態学会</td></tr>
+        </table>
+
+        <h3 class="mb-h3">大学院生</h3>
+        <table class="mb-table">
+          {members.map((m) => (
+            <tr><th>{m.grade}</th><td>{m.name} <span class="mb-theme">({m.theme})</span></td></tr>
+          ))}
+        </table>
+
+        <h3 class="mb-h3">略歴</h3>
+        <ul class="mb-history">
+          {history.map((h) => (
+            <li><span class="mb-year">{h.year}</span><span class="mb-text">{h.text}</span></li>
+          ))}
+        </ul>
+      </section>
+
+      <section class="mb-section">
+        <h2>業績(抜粋)</h2>
+        <ul class="mb-pub">
+          <li>物部庄太「張岡県西部山岳地域における植生分布の経年変化」張岡大学理学部紀要, 2009年.</li>
+          <li>物部庄太「山間集落の土壌環境と植物群落の関係についての一考察」日本生態学会誌, 2012年.</li>
+          <li>物部庄太、瀬戸口蓮「希少種の生育適地推定モデルの構築」日本植物学会誌, 2023年.</li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="mb-footer">
+      <p>&copy; 張岡大学理学部 物部研究室</p>
+      <p>このWebサイトの内容はすべてフィクションであり、実在の人物・団体とは一切関係がありません。</p>
+    </footer>
+  </div>
+</Layout>
+
+<style is:global>
+  .mb { background: #fff; color: #2a2a2a; min-height: 100vh; display: flex; flex-direction: column; font-size: 15px; line-height: 1.8; }
+
+  .mb-head { background: #0d3b66; border-bottom: 3px solid #062a4a; }
+  .mb-head-inner { max-width: 900px; margin: 0 auto; padding: 20px 24px 16px; }
+  .mb-univ { color: #cfe0f2; font-size: 0.8rem; letter-spacing: 0.05em; }
+  .mb-title { color: #fff; font-size: 1.5rem; margin: 4px 0 0; font-weight: bold; }
+
+  .mb-nav { background: #123f6b; display: flex; overflow-x: auto; }
+  .mb-nav a { color: #d7e4f2; text-decoration: none; padding: 10px 18px; font-size: 0.85rem; white-space: nowrap; cursor: default; }
+  .mb-nav a:hover { background: #1c4e80; color: #fff; }
+  .mb-nav a.current { background: #fff; color: #0d3b66; font-weight: bold; }
+
+  .mb-main { flex: 1; width: 100%; max-width: 900px; margin: 0 auto; padding: 28px 24px 40px; box-sizing: border-box; }
+  .mb-section { margin-bottom: 34px; }
+  .mb-section h2 { font-size: 1.15rem; color: #0d3b66; border-bottom: 2px solid #0d3b66; padding-bottom: 6px; margin: 0 0 12px; }
+  .mb-h3 { font-size: 0.95rem; color: #0d3b66; margin: 20px 0 8px; }
+  .mb-section p { margin: 0 0 0.9em; }
+  .mb-section ul { margin: 0 0 0.9em; padding-left: 1.4em; }
+
+  .mb-news { list-style: none; margin: 0; padding: 0; font-size: 0.9rem; }
+  .mb-news li { display: flex; gap: 14px; padding: 7px 0; border-bottom: 1px dotted #d7e4f2; }
+  .mb-news-date { color: #767a80; flex-shrink: 0; width: 90px; }
+  .mb-news a { color: #0d3b66; margin-left: 4px; }
+
+  .mb-table { border-collapse: collapse; width: 100%; margin-bottom: 8px; font-size: 0.92rem; }
+  .mb-table th { text-align: left; background: #eef4fa; padding: 8px 12px; width: 110px; border: 1px solid #d7e4f2; }
+  .mb-table td { padding: 8px 12px; border: 1px solid #d7e4f2; }
+  .mb-theme { color: #767a80; font-size: 0.85em; }
+
+  .mb-history { list-style: none; padding: 0; margin: 0; font-size: 0.9rem; }
+  .mb-history li { display: flex; gap: 14px; padding: 6px 0; border-bottom: 1px dotted #d7e4f2; }
+  .mb-year { color: #0d3b66; font-weight: bold; flex-shrink: 0; width: 70px; }
+
+  .mb-pub { font-size: 0.88rem; color: #444; }
+
+  .mb-footer { text-align: center; font-size: 12px; color: #767a80; background: #eef4fa; border-top: 1px solid #d7e4f2; padding: 16px; }
+  .mb-footer p { margin: 2px 0; }
+
+  @media (max-width: 640px) {
+    .mb-title { font-size: 1.2rem; }
+    .mb-history li, .mb-news li { flex-direction: column; gap: 2px; }
+  }
+</style>
