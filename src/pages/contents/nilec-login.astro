@@ -1,0 +1,500 @@
+---
+// 配置先: src/pages/contents/nilec-login.astro
+// 職員ログインページ。ID=苗字(ローマ字)+生年月日8桁。パスワードは再発行フローでのみ入手できる。
+import Layout from '../../layouts/Layout.astro';
+
+// このページ専用の答え。他のページからは参照されない。
+const VALID_ID = 'monobe19750408';
+const TEMP_PASSWORD = 'xk4p9qwe';
+const PORTAL_URL = '/contents/nilec/portal'; // 内部ポータル(今後作成)
+---
+
+<Layout title="職員ログイン | 国立研究開発法人 日本生命生態保全機構">
+  <div class="nl">
+    <div class="nl-topbar">
+      <div class="nl-topbar-inner">
+        <span>National Institute for Life and Ecological Conservation</span>
+        <a href="/contents/nilec">機構トップへ戻る</a>
+      </div>
+    </div>
+
+    <header class="nl-head">
+      <div class="nl-head-inner">
+        <span class="nl-emblem">N</span>
+        <div>
+          <h1 class="nl-title">職員ログイン</h1>
+          <p class="nl-sub">関係者以外の利用はお断りしております</p>
+        </div>
+      </div>
+    </header>
+
+    <main class="nl-login-main">
+      <!-- ログイン画面 -->
+      <div id="loginView" class="nl-box">
+        <h2 class="nl-box-title">職員ログイン</h2>
+
+        <div id="loginError" class="nl-error" hidden>※ID、またはパスワードが間違っています。</div>
+
+        <form id="loginForm">
+          <label class="nl-label" for="loginId">ID</label>
+          <input type="text" id="loginId" class="nl-input" autocomplete="off" />
+
+          <label class="nl-label" for="loginPw">パスワード</label>
+          <input type="password" id="loginPw" class="nl-input" autocomplete="off" />
+
+          <button type="submit" class="nl-btn">ログイン</button>
+        </form>
+
+        <a href="#" id="toReissue" class="nl-sub-link">パスワードをお忘れの方はこちら</a>
+      </div>
+
+      <!-- パスワード再発行画面 -->
+      <div id="reissueView" class="nl-box" hidden>
+        <h2 class="nl-box-title">パスワード再発行</h2>
+        <p class="nl-desc">ご登録のIDを入力してください。仮パスワードを発行いたします。</p>
+
+        <div id="reissueError" class="nl-error" hidden>※IDは、苗字のローマ字表記と生年月日(半角数字8桁)を組み合わせたものです。</div>
+        <div id="reissueSuccess" class="nl-success" hidden></div>
+
+        <form id="reissueForm">
+          <label class="nl-label" for="reissueId">ID</label>
+          <input type="text" id="reissueId" class="nl-input" autocomplete="off" />
+
+          <button type="submit" class="nl-btn">仮パスワードを発行する</button>
+        </form>
+
+        <a href="#" id="toLogin" class="nl-sub-link">ログイン画面に戻る</a>
+      </div>
+    </main>
+
+    <footer class="nl-footer">
+      <p>国立研究開発法人 日本生命生態保全機構</p>
+      <p>このWebサイトの内容はすべてフィクションであり、実在の人物・団体とは一切関係がありません。</p>
+    </footer>
+  </div>
+
+  <script type="module" define:vars={{ VALID_ID, TEMP_PASSWORD, PORTAL_URL }}>
+    const loginView = document.getElementById('loginView');
+    const reissueView = document.getElementById('reissueView');
+    const loginError = document.getElementById('loginError');
+    const reissueError = document.getElementById('reissueError');
+    const reissueSuccess = document.getElementById('reissueSuccess');
+
+    document.getElementById('toReissue').addEventListener('click', (e) => {
+      e.preventDefault();
+      loginView.hidden = true;
+      reissueView.hidden = false;
+      loginError.hidden = true;
+    });
+
+    document.getElementById('toLogin').addEventListener('click', (e) => {
+      e.preventDefault();
+      reissueView.hidden = true;
+      loginView.hidden = false;
+      reissueError.hidden = true;
+      reissueSuccess.hidden = true;
+    });
+
+    document.getElementById('loginForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const id = document.getElementById('loginId').value.trim();
+      const pw = document.getElementById('loginPw').value.trim();
+
+      if (id === VALID_ID && pw === TEMP_PASSWORD) {
+        window.location.href = PORTAL_URL;
+      } else {
+        loginError.hidden = false;
+      }
+    });
+
+    document.getElementById('reissueForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const id = document.getElementById('reissueId').value.trim();
+
+      if (id === VALID_ID) {
+        reissueError.hidden = true;
+        reissueSuccess.hidden = false;
+        reissueSuccess.textContent =
+          `仮パスワードを発行しました: ${TEMP_PASSWORD}(半角英数字) これは仮パスワードです。ログイン後、パスワードの変更をお願いいたします。`;
+      } else {
+        reissueSuccess.hidden = true;
+        reissueError.hidden = false;
+      }
+    });
+  </script>
+</Layout>
+
+<style is:global>
+  .nl {
+    --green: #176b4d;
+    --dark-green: #0d4432;
+    --navy: #193746;
+    --light-green: #edf4f0;
+    --line: #d7dfdb;
+
+    background: #fff;
+    color: #26312d;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+
+    font-family:
+      "Noto Sans JP",
+      "Yu Gothic",
+      "Hiragino Kaku Gothic ProN",
+      Meiryo,
+      sans-serif;
+
+    line-height: 1.8;
+  }
+
+  /* =========================
+     共通
+  ========================= */
+
+  .nl-topbar {
+    background: #123c32;
+    color: #d8e6e0;
+    font-size: 12px;
+  }
+
+  .nl-topbar-inner {
+    width: min(1180px, calc(100% - 64px));
+    min-height: 34px;
+    margin: 0 auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nl-topbar-inner a {
+    color: #fff;
+    text-decoration: none;
+  }
+
+  .nl-topbar-inner a:hover {
+    text-decoration: underline;
+  }
+
+
+  /* =========================
+     HEADER
+  ========================= */
+
+  .nl-head {
+    background: #fff;
+    border-bottom: 1px solid #dce4e0;
+  }
+
+  .nl-head-inner {
+    width: min(1180px, calc(100% - 64px));
+    min-height: 92px;
+    margin: 0 auto;
+
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+
+  .nl-emblem {
+    width: 58px;
+    height: 58px;
+
+    border: 3px solid #176b4d;
+    border-radius: 50%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: #176b4d;
+    font-family: Georgia, serif;
+    font-size: 25px;
+    font-weight: bold;
+
+    flex-shrink: 0;
+  }
+
+  .nl-title {
+    color: #193746;
+    font-size: 19px;
+    line-height: 1.45;
+    margin: 0;
+    letter-spacing: .03em;
+  }
+
+  .nl-sub {
+    color: #71817a;
+    font-size: 10px;
+    letter-spacing: .12em;
+    margin: 4px 0 0;
+  }
+
+
+  /* =========================
+     LOGIN AREA
+  ========================= */
+
+  .nl-login-main {
+    flex: 1;
+
+    background:
+      linear-gradient(
+        180deg,
+        #f1f5f3 0%,
+        #f8faf9 100%
+      );
+
+    padding: 70px 20px 90px;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .nl-login-wrap {
+    width: 100%;
+    max-width: 560px;
+  }
+
+
+  /* ページ見出し */
+
+  .nl-page-heading {
+    margin-bottom: 25px;
+  }
+
+  .nl-page-heading span {
+    color: #176b4d;
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: .2em;
+  }
+
+  .nl-page-heading h2 {
+    color: #193746;
+    font-size: 27px;
+    margin: 2px 0 0;
+    letter-spacing: .04em;
+  }
+
+  .nl-page-heading p {
+    color: #66756e;
+    font-size: 13px;
+    margin: 8px 0 0;
+  }
+
+
+  /* =========================
+     LOGIN BOX
+  ========================= */
+
+  .nl-box {
+    background: #fff;
+
+    border: 1px solid #d7dfdb;
+    border-top: 4px solid #176b4d;
+
+    padding: 35px 42px 38px;
+
+    box-shadow: 0 3px 12px rgba(24, 54, 46, .06);
+  }
+
+  .nl-box-title {
+    color: #193746;
+    font-size: 18px;
+    margin: 0 0 24px;
+
+    padding-bottom: 12px;
+    border-bottom: 1px solid #d7dfdb;
+  }
+
+  .nl-desc {
+    color: #5d6b65;
+    font-size: 13px;
+    margin: 0 0 20px;
+  }
+
+
+  /* =========================
+     FORM
+  ========================= */
+
+  .nl-label {
+    display: block;
+
+    color: #42544c;
+    font-size: 12px;
+    font-weight: bold;
+
+    margin: 16px 0 5px;
+  }
+
+  .nl-input {
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 11px 12px;
+
+    background: #fff;
+
+    border: 1px solid #b9c7c1;
+    border-radius: 2px;
+
+    color: #26312d;
+    font-family: inherit;
+    font-size: 14px;
+  }
+
+  .nl-input:focus {
+    outline: none;
+    border-color: #176b4d;
+    box-shadow: 0 0 0 2px rgba(23, 107, 77, .1);
+  }
+
+
+  /* =========================
+     BUTTON
+  ========================= */
+
+  .nl-btn {
+    width: 100%;
+
+    margin-top: 25px;
+    padding: 12px;
+
+    background: #176b4d;
+    color: #fff;
+
+    border: none;
+    border-radius: 2px;
+
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: bold;
+
+    cursor: pointer;
+  }
+
+  .nl-btn:hover {
+    background: #0d4432;
+  }
+
+
+  /* =========================
+     LINK
+  ========================= */
+
+  .nl-sub-link {
+    display: block;
+
+    margin-top: 20px;
+
+    text-align: center;
+
+    color: #176b4d;
+    font-size: 12px;
+    text-decoration: none;
+  }
+
+  .nl-sub-link:hover {
+    text-decoration: underline;
+  }
+
+
+  /* =========================
+     MESSAGE
+  ========================= */
+
+  .nl-error {
+    background: #f8eeee;
+    color: #8a3d35;
+
+    border-left: 3px solid #a64b42;
+
+    font-size: 12px;
+
+    padding: 10px 12px;
+    margin-bottom: 15px;
+  }
+
+  .nl-success {
+    background: #edf5f0;
+    color: #2f674f;
+
+    border-left: 3px solid #176b4d;
+
+    font-size: 12px;
+
+    padding: 12px;
+
+    margin-bottom: 15px;
+    line-height: 1.7;
+  }
+
+
+  /* =========================
+     FOOTER
+  ========================= */
+
+  .nl-footer {
+    background: #16362e;
+    color: #c9d8d2;
+
+    padding: 30px 20px 22px;
+
+    text-align: center;
+    font-size: 10px;
+  }
+
+  .nl-footer p {
+    margin: 3px 0;
+  }
+
+  .nl-footer p:first-child {
+    color: #fff;
+    font-size: 13px;
+    font-weight: bold;
+  }
+
+
+  /* =========================
+     MOBILE
+  ========================= */
+
+  @media (max-width: 700px) {
+
+    .nl-topbar-inner,
+    .nl-head-inner {
+      width: calc(100% - 32px);
+    }
+
+    .nl-head-inner {
+      min-height: 78px;
+    }
+
+    .nl-emblem {
+      width: 45px;
+      height: 45px;
+      font-size: 20px;
+    }
+
+    .nl-title {
+      font-size: 14px;
+    }
+
+    .nl-sub {
+      display: none;
+    }
+
+    .nl-login-main {
+      padding: 45px 16px 60px;
+    }
+
+    .nl-box {
+      padding: 28px 22px 30px;
+    }
+
+  }
+</style>

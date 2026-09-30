@@ -1,0 +1,278 @@
+---
+import NilecPortalLayout from '../../../layouts/NilecPortalLayout.astro';
+import { nilecRecords } from '../../../data/nilecDatabase';
+
+const records = nilecRecords;
+---
+
+<NilecPortalLayout title="内部記録検索" current="内部記録検索">
+
+  <section class="np-section">
+
+    <h2>内部記録検索</h2>
+
+    <div class="search-intro">
+      <p>
+        機構内で作成された各種記録・報告書を検索できます。
+      </p>
+      <p>
+        登録された検索語から記録を検索してください。
+      </p>
+    </div>
+
+    <form class="record-search" id="recordSearch">
+
+      <label for="keyword">検索語</label>
+
+      <div class="search-row">
+        <input
+          id="keyword"
+          type="text"
+          placeholder="検索語を入力"
+          autocomplete="off"
+        />
+        <button type="submit">検索</button>
+      </div>
+
+    </form>
+
+  </section>
+
+
+  <section class="np-section">
+
+    <h2>
+      検索結果
+      <span id="resultCount">全3件</span>
+    </h2>
+
+    <div id="results">
+
+      {records.map((record, index) => (
+        <a
+          class={`record ${index >= 3 ? 'record-extra' : ''}`}
+          href={`/contents/nilec/record/${record.id}`}
+          data-keywords={record.keywords.join('|')}
+        >
+
+          <div class="record-meta">
+            <span>{record.date}</span>
+            <span>{record.category}</span>
+          </div>
+
+          <h3>{record.title}</h3>
+
+          <p>
+            記録番号：{record.id}
+            <span class="record-status">{record.status}</span>
+          </p>
+
+        </a>
+      ))}
+
+    </div>
+
+    <p id="noResults">
+      該当する記録はありません。
+    </p>
+
+  </section>
+
+</NilecPortalLayout>
+
+
+<script>
+  const form = document.getElementById('recordSearch') as HTMLFormElement;
+  const input = document.getElementById('keyword') as HTMLInputElement;
+  const records = document.querySelectorAll<HTMLElement>('.record');
+  const count = document.getElementById('resultCount') as HTMLElement;
+  const noResults = document.getElementById('noResults') as HTMLElement;
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const keyword = input.value.trim().toLowerCase();
+
+    let visible = 0;
+
+    records.forEach((record, index) => {
+
+      const keywords =
+        record.dataset.keywords
+          ?.split('|')
+          .map((word) => word.toLowerCase()) ?? [];
+
+      // 検索語が空の場合
+      // 最初の3件だけ表示
+      if (!keyword) {
+
+        if (index < 3) {
+          record.style.display = 'block';
+          visible++;
+        } else {
+          record.style.display = 'none';
+        }
+
+        return;
+      }
+
+      // 登録されたキーワードと完全一致した場合だけ表示
+      if (keywords.includes(keyword)) {
+        record.style.display = 'block';
+        visible++;
+      } else {
+        record.style.display = 'none';
+      }
+
+    });
+
+    count.textContent = `検索結果：${visible}件`;
+
+    noResults.style.display =
+      visible === 0 ? 'block' : 'none';
+  });
+
+  // 初期状態
+  noResults.style.display = 'none';
+</script>
+
+
+<style is:global>
+
+  .search-intro {
+    color: #68757a;
+    font-size: 12px;
+    margin-bottom: 20px;
+  }
+
+  .search-intro p {
+    margin: 2px 0;
+  }
+
+  .record-search {
+    padding: 20px 24px;
+    background: #f3f5f5;
+    border: 1px solid #d8dfe1;
+  }
+
+  .record-search label {
+    display: block;
+    margin-bottom: 6px;
+
+    color: #4b585d;
+    font-size: 12px;
+    font-weight: bold;
+  }
+
+  .search-row {
+    display: flex;
+    gap: 8px;
+  }
+
+  .search-row input {
+    flex: 1;
+    min-width: 0;
+
+    padding: 10px 12px;
+
+    border: 1px solid #bfc9cc;
+    background: #fff;
+
+    font-family: inherit;
+    font-size: 13px;
+  }
+
+  .search-row input:focus {
+    outline: none;
+    border-color: #7b2638;
+  }
+
+  .search-row button {
+    width: 100px;
+
+    border: none;
+    background: #7b2638;
+    color: #fff;
+
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: bold;
+
+    cursor: pointer;
+  }
+
+  .search-row button:hover {
+    background: #5d1c2b;
+  }
+
+  #resultCount {
+    float: right;
+
+    color: #899397;
+    font-size: 11px;
+    font-weight: normal;
+  }
+
+  .record {
+    display: block;
+
+    margin-bottom: 8px;
+    padding: 16px 20px;
+
+    background: #fff;
+    border: 1px solid #d8dfe1;
+
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .record:hover {
+    border-color: #9a6874;
+    background: #fcf9fa;
+  }
+
+  .record-extra {
+    display: none;
+  }
+
+  .record-meta {
+    display: flex;
+    gap: 18px;
+
+    color: #899397;
+    font-size: 10px;
+  }
+
+  .record h3 {
+    margin: 4px 0;
+
+    color: #203844;
+    font-size: 14px;
+  }
+
+  .record p {
+    margin: 0;
+
+    color: #899397;
+    font-size: 10px;
+  }
+
+  .record-status {
+    margin-left: 15px;
+    color: #7b2638;
+  }
+
+  #noResults {
+    display: none;
+
+    padding: 20px;
+
+    border: 1px solid #d8dfe1;
+    background: #f5f6f6;
+
+    color: #899397;
+    font-size: 12px;
+    text-align: center;
+  }
+
+</style>

@@ -1,0 +1,203 @@
+---
+import NilecPortalLayout from '../../../../layouts/NilecPortalLayout.astro';
+import { nilecRecords } from '../../../../data/nilecDatabase';
+
+export function getStaticPaths() {
+
+  return nilecRecords.map((record) => ({
+    params: {
+      id: record.id
+    },
+
+    props: {
+      record
+    }
+  }));
+
+}
+
+const { record } = Astro.props;
+---
+
+<NilecPortalLayout title="内部記録" current="内部記録検索">
+
+  <section class="np-section">
+
+    <div class="record-header">
+
+      <div class="record-meta">
+        <span>{record.category}</span>
+        <span>{record.status}</span>
+      </div>
+
+      <h2>{record.title}</h2>
+
+      <div class="record-info">
+
+        <span>
+          記録番号：{record.id}
+        </span>
+
+        <span>
+          作成日：{record.date}
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <div class="record-document">
+
+      <div class="document-label">
+        INTERNAL DOCUMENT
+      </div>
+
+      <div
+        class="document-body"
+        set:html={record.body}
+      />
+
+    </div>
+
+
+    <div class="record-footer">
+
+      <span>
+        本記録の無断複製・転載を禁じます。
+      </span>
+
+      <a href="/contents/nilec/records">
+        ← 内部記録検索へ戻る
+      </a>
+
+    </div>
+
+  </section>
+
+</NilecPortalLayout>
+
+
+<style is:global>
+
+  .record-header {
+    border-bottom: 2px solid #203844;
+    padding-bottom: 18px;
+    margin-bottom: 24px;
+  }
+
+  .record-meta {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+
+  .record-meta span {
+    padding: 3px 8px;
+
+    color: #7b2638;
+    border: 1px solid #d6c0c5;
+
+    font-size: 10px;
+  }
+
+  .record-header h2 {
+    margin: 0;
+
+    color: #203844;
+    font-size: 21px;
+    font-weight: bold;
+  }
+
+  .record-info {
+    display: flex;
+    gap: 25px;
+
+    margin-top: 10px;
+
+    color: #7c878b;
+    font-family: monospace;
+    font-size: 10px;
+  }
+
+  .record-document {
+    position: relative;
+
+    min-height: 260px;
+    padding: 45px 50px;
+
+    background:
+      linear-gradient(
+        to bottom,
+        rgba(32,56,68,.025) 1px,
+        transparent 1px
+      );
+
+    background-size: 100% 28px;
+
+    border: 1px solid #d5dcde;
+  }
+
+  .document-label {
+    margin-bottom: 25px;
+
+    color: #9a6a73;
+    font-family: monospace;
+    font-size: 9px;
+    letter-spacing: .12em;
+  }
+
+  .document-body {
+    color: #3f4a4e;
+
+    font-family:
+      "Yu Mincho",
+      "Hiragino Mincho ProN",
+      serif;
+
+    font-size: 13px;
+    line-height: 2;
+  }
+
+  .document-body p {
+    margin: 0 0 18px;
+  }
+
+  .record-footer {
+    display: flex;
+    justify-content: space-between;
+
+    margin-top: 18px;
+
+    color: #899397;
+    font-size: 10px;
+  }
+
+  .record-footer a {
+    color: #7b2638;
+    text-decoration: none;
+  }
+
+  .record-footer a:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 600px) {
+
+    .record-document {
+      padding: 30px 22px;
+    }
+
+    .record-info {
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .record-footer {
+      flex-direction: column;
+      gap: 10px;
+    }
+
+  }
+
+</style>

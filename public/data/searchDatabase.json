@@ -53,5 +53,27 @@
       "snippet": "山間地域における植物の生育環境と生態系の変化について、現地調査を中心とした研究を行っています。 … 詳細を表示"
     }
   ]
+},
+"日本生命生態保全機構": {
+  "count": 940,
+  "results": [
+    {
+      "title": "国立研究開発法人 日本生命生態保全機構",
+      "url": "/contents/nilec",
+      "displayUrl": "https://www.nilec.example.go.jp",
+      "snippet": "国内の生態系保全、特定外来生物の防除・調査、絶滅危惧種の保護・繁殖支援を目的として設立された … 詳細を表示"
+    }
+  ]
+},
+"深見恵理子": {
+  "count": 8,
+  "results": [
+    {
+      "title": "恵理子（@eriko_hukami）",
+      "url": "/contents/eriko",
+      "displayUrl": "https://outstagram.example.com › eriko_hukami ",
+      "snippet": "このたび、結婚しました。家族や友人、これまでお世話になったたくさんの方々に … 詳細を表示"
+    }
+  ]
 }
 }

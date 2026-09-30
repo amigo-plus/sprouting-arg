@@ -1,0 +1,316 @@
+---
+import NilecPortalLayout from '../../../layouts/NilecPortalLayout.astro';
+
+const departments = [
+  {
+    name: '検体解析部',
+    desc: '検体・事案の解析および原因究明',
+    sections: [
+      '第一課　一般感染症',
+      '第二課　人為的生物災害',
+      '第三課　その他特殊事例',
+    ],
+  },
+  {
+    name: '対策開発部',
+    desc: '確認された事象への対策の立案・開発',
+    sections: [
+      '第一課　一般感染症',
+      '第二課　人為的生物災害',
+      '第三課　その他特殊事例',
+    ],
+  },
+  {
+    name: '情報管理部',
+    desc: '情報管理、対外対応および機密情報の保全',
+    sections: [
+      '第一課　一般情報統制',
+      '第二課　総務',
+      '第三課　人事',
+    ],
+  },
+  {
+    name: '研究開発部',
+    desc: '生命科学に関する技術・対策の研究開発',
+    sections: [
+      '第一課　基礎研究',
+      '第二課　応用研究',
+    ],
+  },
+];
+---
+
+<NilecPortalLayout title="理念・組織" current="理念・組織">
+
+  <section class="np-section">
+
+    <h2>設立理念</h2>
+
+    <div class="rinen-box">
+      <p class="rinen-main">
+        国益に影響を及ぼしうる生命現象を、
+        <span>迅速に発見し、解析し、制御する。</span>
+      </p>
+
+      <div class="rinen-flow">
+        <div>
+          <strong>発見</strong>
+          <small>DETECTION</small>
+        </div>
+
+        <i>→</i>
+
+        <div>
+          <strong>解析</strong>
+          <small>ANALYSIS</small>
+        </div>
+
+        <i>→</i>
+
+        <div>
+          <strong>対策</strong>
+          <small>RESPONSE</small>
+        </div>
+
+        <i>→</i>
+
+        <div>
+          <strong>制御</strong>
+          <small>CONTROL</small>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+
+  <section class="np-section">
+
+    <h2>組織構成</h2>
+
+    <div class="org-chart">
+
+      <div class="org-top">
+        <strong>機構総合管理役員</strong>
+        <small>複数の役員による合議制</small>
+      </div>
+
+      <div class="org-line"></div>
+
+      <div class="org-departments">
+
+        {departments.map((d) => (
+          <div class="org-dept">
+
+            <div class="org-dept-head">
+              <strong>{d.name}</strong>
+              <span>{d.desc}</span>
+            </div>
+
+            <ul>
+              {d.sections.map((s) => (
+                <li>{s}</li>
+              ))}
+            </ul>
+
+          </div>
+        ))}
+
+      </div>
+
+    </div>
+
+  </section>
+
+</NilecPortalLayout>
+
+<style is:global>
+
+  .rinen-box {
+    border: 1px solid #d8dfe1;
+    background: #fafbfb;
+    padding: 28px;
+  }
+
+  .rinen-main {
+    margin: 0 0 28px;
+    text-align: center;
+
+    color: #203844;
+    font-size: 17px;
+    font-weight: bold;
+    letter-spacing: .05em;
+  }
+
+  .rinen-main span {
+    color: #7b2638;
+  }
+
+  .rinen-flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+  }
+
+  .rinen-flow div {
+    width: 130px;
+    padding: 12px 8px;
+
+    background: #fff;
+    border: 1px solid #ccd5d8;
+
+    text-align: center;
+  }
+
+  .rinen-flow strong {
+    display: block;
+    color: #203844;
+    font-size: 14px;
+  }
+
+  .rinen-flow small {
+    display: block;
+    color: #899397;
+    font-size: 8px;
+    letter-spacing: .1em;
+  }
+
+  .rinen-flow i {
+    color: #7b2638;
+    font-style: normal;
+    font-weight: bold;
+  }
+
+
+  /* 組織図 */
+
+  .org-chart {
+    position: relative;
+  }
+
+  .org-top {
+    width: 280px;
+    margin: 0 auto;
+    padding: 14px;
+
+    background: #203844;
+    color: #fff;
+
+    text-align: center;
+  }
+
+  .org-top strong {
+    display: block;
+    font-size: 14px;
+  }
+
+  .org-top small {
+    display: block;
+    margin-top: 3px;
+    color: #bdc9cd;
+    font-size: 10px;
+  }
+
+  .org-line {
+    width: 1px;
+    height: 25px;
+    margin: 0 auto;
+    background: #b8c2c5;
+  }
+
+  .org-departments {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+
+    position: relative;
+  }
+
+  .org-departments::before {
+    content: "";
+    position: absolute;
+
+    top: -1px;
+    left: 12.5%;
+    right: 12.5%;
+
+    height: 1px;
+    background: #b8c2c5;
+  }
+
+  .org-dept {
+    background: #fff;
+    border: 1px solid #ccd5d8;
+  }
+
+  .org-dept-head {
+    padding: 13px 12px;
+
+    background: #f1f4f4;
+    border-bottom: 3px solid #7b2638;
+  }
+
+  .org-dept-head strong {
+    display: block;
+    color: #203844;
+    font-size: 14px;
+  }
+
+  .org-dept-head span {
+    display: block;
+    margin-top: 3px;
+
+    color: #748086;
+    font-size: 10px;
+    line-height: 1.5;
+  }
+
+  .org-dept ul {
+    list-style: none;
+    margin: 0;
+    padding: 8px 12px;
+  }
+
+  .org-dept li {
+    padding: 5px 0;
+
+    border-bottom: 1px dotted #d7dddf;
+
+    color: #555f63;
+    font-size: 11px;
+  }
+
+  .org-dept li:last-child {
+    border-bottom: none;
+  }
+
+  @media (max-width: 800px) {
+
+    .rinen-flow {
+      flex-wrap: wrap;
+    }
+
+    .org-departments {
+      grid-template-columns: 1fr 1fr;
+    }
+
+  }
+
+  @media (max-width: 500px) {
+
+    .rinen-flow {
+      flex-direction: column;
+    }
+
+    .rinen-flow i {
+      transform: rotate(90deg);
+    }
+
+    .org-departments {
+      grid-template-columns: 1fr;
+    }
+
+  }
+
+</style>

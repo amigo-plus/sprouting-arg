@@ -1,0 +1,440 @@
+---
+/**
+ * 配置先: src/pages/contents/nilec/portal.astro
+ * ログイン後の内部ポータル トップページ。
+ */
+
+import NilecPortalLayout from '../../../layouts/NilecPortalLayout.astro';
+---
+
+<NilecPortalLayout title="トップ" current="トップ">
+
+  <!-- 機密指定 -->
+
+  <section class="np-classification">
+    <div class="classification-main">
+      <span>機密指定</span>
+      <strong>内部利用限定</strong>
+    </div>
+
+    <div class="classification-side">
+      情報管理規程 第4条に基づく<br />
+      職員専用情報
+    </div>
+  </section>
+
+
+  <!-- システム概要 -->
+
+  <section class="np-section">
+    <h2>職員向け内部ポータル</h2>
+
+    <div class="np-box portal-intro">
+
+      <p class="portal-lead">
+        国立研究開発法人 日本生命生態保全機構
+        職員向け情報システム
+      </p>
+
+      <p>
+        本システムでは、機構内の各種記録、事案情報、
+        業務上必要となる内部資料を取り扱います。
+      </p>
+
+      <p>
+        閲覧権限は所属および職務上の必要性に応じて
+        設定されています。
+      </p>
+
+    </div>
+  </section>
+
+
+  <!-- お知らせ -->
+
+  <section class="np-section">
+
+    <h2>システムからのお知らせ</h2>
+
+    <div class="np-box notice-list">
+
+      <div class="notice-item">
+        <time>2025/09/04</time>
+        <span class="notice-tag">情報管理</span>
+        <p>
+          一部記録について、情報管理上の理由により
+          閲覧権限が変更されています。
+        </p>
+      </div>
+
+      <div class="notice-item">
+        <time>2021/08/26</time>
+        <span class="notice-tag">システム</span>
+        <p>
+          内部記録データベースの更新を行いました。
+        </p>
+      </div>
+
+      <div class="notice-item">
+        <time>2018/08/01</time>
+        <span class="notice-tag">重要</span>
+        <p>
+          外部への情報提供を行う際は、
+          必ず情報管理部の確認を受けてください。
+        </p>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- セキュリティ -->
+
+  <section class="np-section">
+
+    <h2>情報管理上の注意</h2>
+
+    <div class="np-box security-box">
+
+      <div class="security-row">
+        <strong>01</strong>
+        <p>
+          本システムに掲載されている情報の
+          無断転載・複製を禁止します。
+        </p>
+      </div>
+
+      <div class="security-row">
+        <strong>02</strong>
+        <p>
+          外部媒体への記録情報の保存、
+          持ち出しを禁止します。
+        </p>
+      </div>
+
+      <div class="security-row">
+        <strong>03</strong>
+        <p>
+          不審な情報、記録上の不整合等を確認した場合は、
+          情報管理部へ報告してください。
+        </p>
+      </div>
+
+      <div class="security-row">
+        <strong>04</strong>
+        <p>
+          端末を離れる際は、必ずログアウトしてください。
+        </p>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- アクセス情報 -->
+
+  <section class="np-section">
+
+    <h2>現在のアクセス情報</h2>
+
+    <div class="access-grid">
+
+      <div class="access-box">
+        <span>SESSION USER</span>
+        <strong>monobe19750408</strong>
+      </div>
+
+      <div class="access-box">
+        <span>ACCESS LEVEL</span>
+        <strong>LEVEL B</strong>
+      </div>
+
+      <div class="access-box">
+        <span>SESSION STATUS</span>
+        <strong class="active">ACTIVE</strong>
+      </div>
+
+      <div class="access-box">
+        <span>LAST LOGIN</span>
+        <strong>2013/08/21 09:17</strong>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- 最下部の注意 -->
+
+  <div class="portal-warning">
+    <strong>NOTICE</strong>
+    <p>
+      本システムの情報は、業務上必要な範囲を超えて
+      閲覧・利用してはなりません。
+    </p>
+  </div>
+
+</NilecPortalLayout>
+
+
+<style is:global>
+
+  /* =========================================
+     機密指定
+  ========================================= */
+
+  .np-classification {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+
+    margin-bottom: 30px;
+
+    border: 1px solid #c7cfd2;
+    background: #fafafa;
+  }
+
+  .classification-main {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+
+    padding: 13px 20px;
+
+    border-left: 5px solid #7b2638;
+  }
+
+  .classification-main span {
+    color: #7b2638;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: .12em;
+  }
+
+  .classification-main strong {
+    color: #263c45;
+    font-size: 15px;
+    letter-spacing: .04em;
+  }
+
+  .classification-side {
+    display: flex;
+    align-items: center;
+
+    padding: 8px 18px;
+
+    color: #7a8589;
+    border-left: 1px solid #d5dcde;
+
+    font-size: 10px;
+    text-align: right;
+    line-height: 1.5;
+  }
+
+
+  /* =========================================
+     ポータル概要
+  ========================================= */
+
+  .portal-intro {
+    padding: 22px 26px;
+  }
+
+  .portal-lead {
+    margin: 0 0 12px;
+
+    color: #203844;
+    font-size: 15px;
+    font-weight: bold;
+  }
+
+  .portal-intro p:not(.portal-lead) {
+    margin: 4px 0;
+
+    color: #68757a;
+    font-size: 12px;
+  }
+
+
+  /* =========================================
+     お知らせ
+  ========================================= */
+
+  .notice-list {
+    padding: 4px 20px;
+  }
+
+  .notice-item {
+    display: grid;
+    grid-template-columns: 90px 70px 1fr;
+    gap: 10px;
+
+    align-items: baseline;
+
+    padding: 12px 4px;
+
+    border-bottom: 1px dotted #d2d9db;
+  }
+
+  .notice-item:last-child {
+    border-bottom: none;
+  }
+
+  .notice-item time {
+    color: #7b8589;
+    font-family: monospace;
+    font-size: 11px;
+  }
+
+  .notice-tag {
+    display: inline-block;
+
+    padding: 2px 5px;
+
+    color: #7b2638;
+    border: 1px solid #d6bcc2;
+
+    font-size: 9px;
+    text-align: center;
+  }
+
+  .notice-item p {
+    margin: 0;
+
+    color: #4f5d62;
+    font-size: 12px;
+  }
+
+
+  /* =========================================
+     セキュリティ
+  ========================================= */
+
+  .security-box {
+    padding: 0 20px;
+  }
+
+  .security-row {
+    display: grid;
+    grid-template-columns: 35px 1fr;
+    gap: 10px;
+
+    padding: 12px 0;
+
+    border-bottom: 1px dotted #d2d9db;
+  }
+
+  .security-row:last-child {
+    border-bottom: none;
+  }
+
+  .security-row strong {
+    color: #7b2638;
+    font-family: monospace;
+    font-size: 11px;
+  }
+
+  .security-row p {
+    margin: 0;
+
+    color: #59666b;
+    font-size: 12px;
+  }
+
+
+  /* =========================================
+     アクセス情報
+  ========================================= */
+
+  .access-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+
+  .access-box {
+    padding: 13px 15px;
+
+    background: #f5f7f7;
+    border: 1px solid #d6dddf;
+  }
+
+  .access-box span {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: #899397;
+    font-family: monospace;
+    font-size: 9px;
+    letter-spacing: .06em;
+  }
+
+  .access-box strong {
+    display: block;
+
+    color: #304650;
+    font-family: monospace;
+    font-size: 11px;
+    font-weight: normal;
+  }
+
+  .access-box strong.active {
+    color: #54745d;
+  }
+
+
+  /* =========================================
+     最下部警告
+  ========================================= */
+
+  .portal-warning {
+    margin-top: 40px;
+    padding: 13px 18px;
+
+    background: #f7f1f2;
+    border: 1px solid #dec9ce;
+    border-left: 4px solid #7b2638;
+  }
+
+  .portal-warning strong {
+    color: #7b2638;
+    font-family: monospace;
+    font-size: 10px;
+    letter-spacing: .1em;
+  }
+
+  .portal-warning p {
+    margin: 3px 0 0;
+
+    color: #6d6265;
+    font-size: 11px;
+  }
+
+
+  @media (max-width: 700px) {
+
+    .np-classification {
+      flex-direction: column;
+    }
+
+    .classification-side {
+      border-top: 1px solid #d5dcde;
+      border-left: none;
+
+      text-align: left;
+    }
+
+    .notice-item {
+      grid-template-columns: 80px 60px 1fr;
+    }
+
+    .access-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+  }
+
+</style>

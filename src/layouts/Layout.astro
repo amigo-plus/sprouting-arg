@@ -169,8 +169,8 @@ const { title } = Astro.props;
     const PAGE_REGISTRY = {
       "/": { id: "01", title: "Search" },
       "/contents/y-chat": { id: "02", title: "Y.com - チャット" },
-      "/contents/matsuru-city": { id: "03", title: "真蔓市 - Wakipedia", queryNote: "keyword:「真蔓」" },
-      "/contents/10jiro": { id: "04", title: "10ジローの庭園日記", queryNote: "keyword:「哥間村」"},
+      "/contents/matsuru-city": { id: "03", title: "真蔓市 - Wakipedia", queryNote: "検索:「真蔓」" },
+      "/contents/10jiro": { id: "04", title: "10ジローの庭園日記", queryNote: "検索:「哥間村」"},
       "/contents/10jiro/2013-05-14": { id: "05", title: "庭のバラに面白い変化がありました | 10ジローの庭園日記"},
       "/contents/10jiro/2013-06-02": { id: "06", title: "山歩きのすすめ | 10ジローの庭園日記"},
       "/contents/10jiro/2013-06-04": { id: "07", title: "少し困ったことになりました | 10ジローの庭園日記"},
@@ -178,10 +178,22 @@ const { title } = Astro.props;
       "/contents/10jiro/2013-06-09": { id: "09", title: "葬儀に参列しました | 10ジローの庭園日記"},
       "/contents/10jiro/2013-06-11": { id: "10", title: "土について調べています | 10ジローの庭園日記"},
       "/contents/10jiro/2013-06-13": { id: "11", title: "最近頭痛が酷い| 10ジローの庭園日記"},
-      "/contents/engei-bbs": { id: "12", title: "掲示板 | 張岡園芸同好会", queryNote: "keyword:「還種」" },
-      "/contents/yeaah-news": { id: "13", title: "山中で男性の遺体 行方不明の植物研究者か 真蔓市 - Yeaah!ニュース", queryNote: "keyword:「深見天次郎」" },
-      "/contents/monobe-lab": { id: "14", title: "物部研究室 | 張岡大学理学部 植物生態学研究室", queryNote: "keyword:「物部庄太」"},
+      "/contents/engei-bbs": { id: "12", title: "掲示板 | 張岡園芸同好会", queryNote: "検索:「還種」" },
+      "/contents/yeaah-news": { id: "13", title: "山中で男性の遺体 行方不明の植物研究者か 真蔓市 - Yeaah!ニュース", queryNote: "検索:「深見天次郎」" },
+      "/contents/monobe-lab": { id: "14", title: "物部研究室 | 張岡大学理学部 植物生態学研究室", queryNote: "検索:「物部庄太」"},
       "/contents/monobe-lab-2013": { id: "15", title: "（旧サイト）物部研究室 | 張岡大学理学部 植物生態学研究室"},
+      "/contents/nilec": { id: "16", title: "国立研究開発法人 日本生命生態保全機構",queryNote: "検索:「日本生命生態保全機構」"},
+      "/contents/nilec-login": { id: "17", title: "職員ログイン | 国立研究開発法人 日本生命生態保全機構"},
+      "/contents/nilec/portal": { id: "18", title: "トップ | NILEC 内部システム"},
+      "/contents/nilec/rinen": { id: "19", title: "理念・組織 | NILEC 内部システム"},
+      "/contents/nilec/records": { id: "20", title: "内部記録検索 | NILEC 内部システム"},
+      "/contents/nilec/record/I-2011-061": { id: "21", title: "[21]CASE-013における経過報告"},
+      "/contents/nilec/record/D-A-2012-074": { id: "22", title: "刈芭県新型病原体の対策開発部への引き継ぎ資料"},
+      "/contents/nilec/record/A-2013-081": { id: "23", title: "真蔓市山間部における異常事案"},
+      "/contents/nilec/record/A-2013-036": { id: "24", title: ""},
+      "/contents/eriko":{id: "EX1", title: "恵理子（@eriko_hukami）- Outstagram", queryNote:"検索「深見恵理子」"},
+      "/contents/nilec/record/I-2013-094": { id: "EX2", title: "情報管理措置に関する報告", queryNote: "内部記録検索「物部庄太」"},
+      "/contents/nilec/record/I-2013-102": { id: "EX3", title: "張岡大学共同調査事業終了に伴う公開情報の更新", queryNote: "内部記録検索「物部庄太」"}
     };
 
     const norm = (s) => s.replace(/\/$/, "") || "/";
