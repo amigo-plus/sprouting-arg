@@ -8,7 +8,9 @@ import { posts, BLOG_BASE, BLOG_TITLE } from '../../../data/blogPosts';
   <h1 class="bl-h1">最新の記事</h1>
 
   <ul class="bl-list">
-    {posts.map((p) => (
+  {posts
+    .filter((p) => p.title !== '無題')
+    .map((p) => (
       <li>
         <span class="bl-date">{p.date}</span>
         <a href={`${BLOG_BASE}/${p.slug}/`}>{p.title}</a>
