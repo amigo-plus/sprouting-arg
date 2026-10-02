@@ -1,0 +1,210 @@
+---
+// 配置先: src/pages/contents/nilec/roster.astro
+// 検体解析部第三課-第六班 名簿(穴埋め形式)。検索ワード「検体解析部第三課-第六班」からのみ辿り着く想定。
+// 主任(職員005)が生前に作成したとみられる未完成のテンプレート、という体裁。
+import NilecPortalLayout from '../../../layouts/NilecPortalLayout.astro';
+
+// ---- 答え(このページのみで完結させる) ----
+const ANSWERS: Record<string, { surname: string; given: string; symptom?: string }> = {
+  '001': {
+    surname: '日向',
+    given: '蒼太',
+    symptom: '貫生'
+  },
+  '002': {
+    surname: '柳江',
+    given: 'ゆかり',
+    symptom: '葉化'
+  },
+  '003': {
+    surname: '早乙女',
+    given: '千晃',
+    symptom: '帯化'
+  },
+  '004': {
+    surname: '美代',
+    given: '椿',
+    symptom: '弁化'
+  },
+  '005': {
+    surname: '菊名',
+    given: '洋一'
+  },
+};
+
+
+
+---
+
+<NilecPortalLayout title="第六班 配属名簿(未完成)" current="内部記録検索">
+  <section class="np-section">
+    <h2>検体解析部 第三課 - 第六班 配属名簿</h2>
+    <div class="np-box">
+      <p>本名簿は未完成のまま保存されています。空欄を埋めてください。氏名は漢字で入力してください。</p>
+      <p class="np-roster-note">※配属順(機構採用順)に記載。</p>
+    </div>
+  </section>
+  <section class="np-section">
+  <form id="rosterForm">
+
+    {Object.entries(ANSWERS).map(([no, answer]) => (
+      <div class="np-box np-roster-row">
+
+        <div class="np-roster-no">
+          職員{no}{no === '005' ? '（主任）' : ''}
+        </div>
+
+        <div class="np-roster-fields">
+
+          <label>
+            苗字
+            <input
+              type="text"
+              class="np-db-input"
+              data-field="surname"
+              data-no={no}
+              autocomplete="off"
+            />
+          </label>
+
+          <label>
+            名前
+            <input
+              type="text"
+              class="np-db-input"
+              data-field="given"
+              data-no={no}
+              autocomplete="off"
+            />
+          </label>
+
+          {answer.symptom && (
+            <label>
+              発症形態
+              <input
+                type="text"
+                class="np-db-input"
+                data-field="symptom"
+                data-no={no}
+                autocomplete="off"
+              />
+            </label>
+          )}
+
+        </div>
+
+      </div>
+    ))}
+
+    <button
+      type="submit"
+      class="np-db-btn np-roster-submit"
+    >
+      照合する
+    </button>
+
+  </form>
+
+  <div id="rosterResult" class="np-roster-result" hidden></div>
+</section>
+</NilecPortalLayout>
+
+<script type="module" define:vars={{ ANSWERS }}>
+  const form = document.getElementById('rosterForm');
+  const resultBox = document.getElementById('rosterResult');
+
+  function normalize(str) {
+    return str.trim().replace(/\s+/g, '');
+  }
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    let allCorrect = true;
+
+    for (const no of Object.keys(ANSWERS)) {
+
+      const surnameInput =
+        form.querySelector(
+          `[data-no="${no}"][data-field="surname"]`
+        );
+
+      const givenInput =
+        form.querySelector(
+          `[data-no="${no}"][data-field="given"]`
+        );
+
+      const surname = normalize(surnameInput.value);
+      const given = normalize(givenInput.value);
+
+      const surnameOk =
+        surname === ANSWERS[no].surname;
+
+      const givenOk =
+        given === ANSWERS[no].given;
+
+      if (!surnameOk || !givenOk) {
+        allCorrect = false;
+        continue;
+      }
+
+      // 発症形態が存在する職員だけ確認
+      if (ANSWERS[no].symptom) {
+
+        const symptomInput =
+          form.querySelector(
+            `[data-no="${no}"][data-field="symptom"]`
+          );
+
+        const symptom =
+          normalize(symptomInput.value);
+
+        const symptomOk =
+          symptom === ANSWERS[no].symptom;
+
+        if (!symptomOk) {
+          allCorrect = false;
+        }
+      }
+    }
+
+    resultBox.hidden = false;
+
+    if (allCorrect) {
+      resultBox.className =
+        'np-roster-result np-roster-ok';
+
+      resultBox.innerHTML =
+        '照合完了。すべての記録が一致しました。追加記録を確認してください。';
+
+    } else {
+      resultBox.className =
+        'np-roster-result np-roster-ng';
+
+      resultBox.innerHTML =
+        '照合できない項目があります。記録を見直してください。';
+    }
+  });
+</script>
+
+<style is:global>
+  .np-roster-note { font-size: 0.78rem; color: #888; }
+
+  .np-roster-row { display: flex; gap: 20px; align-items: flex-start; }
+  .np-roster-no {
+  flex-shrink: 0;
+  width: 120px;
+  color: #66747a;
+  font-weight: bold;
+  font-family: monospace;
+  padding-top: 6px;
+}
+  .np-roster-fields { flex: 1; display: flex; gap: 16px; flex-wrap: wrap; }
+  .np-roster-fields label { display: flex; flex-direction: column; gap: 4px; font-size: 0.78rem; color: #999; flex: 1; min-width: 160px; }
+
+  .np-roster-submit { display: block; margin: 20px auto 0; width: 220px; }
+
+  .np-roster-result { margin-top: 18px; padding: 14px 18px; border-radius: 3px; font-size: 0.9rem; }
+  .np-roster-ok { background: #0d2b14; border: 1px solid #1c5c33; color: #9fe8b4; }
+  .np-roster-ng { background: #eac1c1; border: 1px solid #a90b0b; color: #a90b0b; }
+</style>

@@ -3,28 +3,23 @@ import NilecPortalLayout from '../../../../layouts/NilecPortalLayout.astro';
 import { nilecRecords } from '../../../../data/nilecDatabase';
 
 export function getStaticPaths() {
-
   return nilecRecords.map((record) => ({
     params: {
       id: record.id
     },
-
     props: {
       record
     }
   }));
-
 }
 
 const { record } = Astro.props;
 ---
 
 <NilecPortalLayout title="内部記録" current="内部記録検索">
-
   <section class="np-section">
 
     <div class="record-header">
-
       <div class="record-meta">
         <span>{record.category}</span>
         <span>{record.status}</span>
@@ -33,36 +28,57 @@ const { record } = Astro.props;
       <h2>{record.title}</h2>
 
       <div class="record-info">
-
-        <span>
-          記録番号：{record.id}
-        </span>
-
-        <span>
-          作成日：{record.date}
-        </span>
-
+        <span>記録番号：{record.id}</span>
+        <span>作成日：{record.date}</span>
       </div>
-
     </div>
 
 
-    <div class="record-document">
+    {record.asDocument ? (
+      /* =========================
+         PDF風表示
+         ========================= */
+      <div class="pdf-wrap">
 
-      <div class="document-label">
-        INTERNAL DOCUMENT
+        <div class="pdf-toolbar">
+          <span>{record.id}.pdf</span>
+          <span class="pdf-toolbar-page">1 / 1</span>
+        </div>
+
+        <div class="pdf-page">
+
+          <div class="document-page-header">
+            <span>{record.id}</span>
+            <span>検体解析部 第三課</span>
+          </div>
+
+          <div
+            class="document-body"
+            set:html={record.body}
+          />
+
+        </div>
       </div>
+    ) : (
+      /* =========================
+         通常の内部文書
+         ========================= */
+      <div class="record-document">
 
-      <div
-        class="document-body"
-        set:html={record.body}
-      />
+        <div class="document-label">
+          INTERNAL DOCUMENT
+        </div>
 
-    </div>
+        <div
+          class="document-body"
+          set:html={record.body}
+        />
+
+      </div>
+    )}
 
 
     <div class="record-footer">
-
       <span>
         本記録の無断複製・転載を禁じます。
       </span>
@@ -70,15 +86,16 @@ const { record } = Astro.props;
       <a href="/contents/nilec/records">
         ← 内部記録検索へ戻る
       </a>
-
     </div>
 
   </section>
-
 </NilecPortalLayout>
 
 
 <style is:global>
+  /* =========================
+     通常レコード
+     ========================= */
 
   .record-header {
     border-bottom: 2px solid #203844;
@@ -94,16 +111,13 @@ const { record } = Astro.props;
 
   .record-meta span {
     padding: 3px 8px;
-
     color: #7b2638;
     border: 1px solid #d6c0c5;
-
     font-size: 10px;
   }
 
   .record-header h2 {
     margin: 0;
-
     color: #203844;
     font-size: 21px;
     font-weight: bold;
@@ -112,9 +126,7 @@ const { record } = Astro.props;
   .record-info {
     display: flex;
     gap: 25px;
-
     margin-top: 10px;
-
     color: #7c878b;
     font-family: monospace;
     font-size: 10px;
@@ -122,25 +134,22 @@ const { record } = Astro.props;
 
   .record-document {
     position: relative;
-
     min-height: 260px;
     padding: 45px 50px;
 
     background:
       linear-gradient(
         to bottom,
-        rgba(32,56,68,.025) 1px,
+        rgba(32, 56, 68, .025) 1px,
         transparent 1px
       );
 
     background-size: 100% 28px;
-
     border: 1px solid #d5dcde;
   }
 
   .document-label {
     margin-bottom: 25px;
-
     color: #9a6a73;
     font-family: monospace;
     font-size: 9px;
@@ -149,12 +158,10 @@ const { record } = Astro.props;
 
   .document-body {
     color: #3f4a4e;
-
     font-family:
       "Yu Mincho",
       "Hiragino Mincho ProN",
       serif;
-
     font-size: 13px;
     line-height: 2;
   }
@@ -162,6 +169,82 @@ const { record } = Astro.props;
   .document-body p {
     margin: 0 0 18px;
   }
+
+
+  /* =========================
+     PDF風表示
+     ========================= */
+
+  .pdf-wrap {
+    background: #525659;
+    border-radius: 4px;
+    padding: 24px 0 40px;
+  }
+
+  .pdf-toolbar {
+    max-width: 210mm;
+    margin: 0 auto 16px;
+    padding: 0 16px;
+
+    display: flex;
+    justify-content: space-between;
+
+    color: #cfd2d4;
+    font-size: .78rem;
+    font-family: monospace;
+  }
+
+  .pdf-page {
+    max-width: 210mm;
+    margin: 0 auto;
+
+    min-height: 297mm;
+
+    background: #fdfdfb;
+
+    box-shadow:
+      0 4px 18px rgba(0,0,0,.4);
+
+    padding: 20mm 18mm;
+    box-sizing: border-box;
+
+    background-image:
+      linear-gradient(
+        to bottom,
+        rgba(32,56,68,.03) 1px,
+        transparent 1px
+      );
+
+    background-size: 100% 28px;
+  }
+
+  .document-page-header {
+    display: flex;
+    justify-content: space-between;
+
+    font-size: 9px;
+    color: #9a6a73;
+    font-family: monospace;
+
+    border-bottom: 1px solid #d5dcde;
+
+    padding-bottom: 8px;
+    margin-bottom: 20px;
+
+    letter-spacing: 0.05em;
+  }
+
+  .np-doc-photo {
+    display: block;
+    max-width: 100%;
+    margin: 16px 0;
+    border: 1px solid #ccc;
+  }
+
+
+  /* =========================
+     フッター
+     ========================= */
 
   .record-footer {
     display: flex;
@@ -182,8 +265,27 @@ const { record } = Astro.props;
     text-decoration: underline;
   }
 
-  @media (max-width: 600px) {
 
+  /* =========================
+     レスポンシブ
+     ========================= */
+
+  @media (max-width: 700px) {
+    .pdf-wrap {
+      padding: 12px 0 24px;
+    }
+
+    .pdf-page {
+      min-height: auto;
+      padding: 8mm 6mm;
+    }
+
+    .pdf-toolbar {
+      max-width: 100%;
+    }
+  }
+
+  @media (max-width: 600px) {
     .record-document {
       padding: 30px 22px;
     }
@@ -197,7 +299,89 @@ const { record } = Astro.props;
       flex-direction: column;
       gap: 10px;
     }
-
   }
+  .autopsy-report {
+  color: #30383b;
+  font-family:
+    "Yu Mincho",
+    "Hiragino Mincho ProN",
+    serif;
+}
 
+.report-title {
+  text-align: center;
+  margin-bottom: 28px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #c8ced0;
+}
+
+.report-title h2 {
+  margin: 0 0 6px;
+  font-size: 18px;
+  letter-spacing: .12em;
+}
+
+.report-title p {
+  margin: 0;
+  font-family: monospace;
+  font-size: 11px;
+  color: #7b2638;
+}
+
+.report-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 30px;
+  font-size: 11px;
+}
+
+.report-table th,
+.report-table td {
+  border: 1px solid #c8ced0;
+  padding: 8px 10px;
+  text-align: left;
+}
+
+.report-table th {
+  width: 28%;
+  background: rgba(32, 56, 68, .04);
+  font-weight: normal;
+  color: #59666b;
+}
+
+.autopsy-report h3 {
+  margin: 30px 0 14px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #c8ced0;
+  font-size: 14px;
+  letter-spacing: .05em;
+}
+
+.autopsy-report p {
+  margin: 0 0 15px;
+  line-height: 2;
+}
+
+.report-caption {
+  margin-top: -8px !important;
+  margin-bottom: 22px !important;
+  color: #7d878a;
+  font-family: monospace;
+  font-size: 9px;
+  text-align: center;
+}
+
+.report-sign {
+  margin-top: 40px;
+  padding-top: 15px;
+  border-top: 1px solid #c8ced0;
+  text-align: right;
+  color: #657075;
+  font-size: 10px;
+}
+
+.report-sign p {
+  margin: 3px 0;
+  line-height: 1.5;
+}
 </style>

@@ -9,6 +9,8 @@ export interface NilecRecord {
   date: string;
   body: string;
   keywords: string[];
+  url?: string;
+  asDocument?: boolean;
 }
 
 export const nilecRecords: NilecRecord[] = [
@@ -18,7 +20,7 @@ export const nilecRecords: NilecRecord[] = [
   // =========================================================
 
   {
-    id: 'I-2011-061',
+    id: 'I-CASE-013-21',
     title: '[21]CASE-013における経過報告',
     category: '情報管理部',
     status: '閲覧可能',
@@ -202,15 +204,155 @@ export const nilecRecords: NilecRecord[] = [
     keywords:['物部庄太']
   },
     {
-    id: 'A-2013-036',
-    title: '張岡大学共同調査事業終了に伴う公開情報の更新',
+    id: 'A-Li-03-06',
+    title: '検体解析部第三課第六班名簿',
     category: '検体解析部 第三課',
     status: '閲覧可能',
-    date: '2013/09/03',
-    body: `
-      <p>
-      </p>
-    `,
-    keywords:['検体解析部第三課-第六班']
+    date: '2009/01/27',
+    body: ``,
+    keywords:['検体解析部第三課-第六班'],
+    url: '/contents/nilec/roster'
   },
+  {
+  id: 'A-CASE-034-A',
+  title: '解剖・検査報告書 CASE-034',
+  category: '検体解析部 第三課',
+  status: '閲覧可能',
+  date: '2013/07/24',
+  body: `
+    <div class="autopsy-report">
+
+      <div class="report-title">
+        <h2>解剖・検査報告書</h2>
+        <p>CASE-034</p>
+      </div>
+
+      <table class="report-table">
+        <tr>
+          <th>記録番号</th>
+          <td>CASE-034</td>
+        </tr>
+        <tr>
+          <th>対象者</th>
+          <td>深見天次郎（58）</td>
+        </tr>
+        <tr>
+          <th>発見日</th>
+          <td>2013年7月23日</td>
+        </tr>
+        <tr>
+          <th>検査日</th>
+          <td>2013年7月24日</td>
+        </tr>
+        <tr>
+          <th>解析区分</th>
+          <td>死亡個体・全身</td>
+        </tr>
+        <tr>
+          <th>担当</th>
+          <td>検体解析部 第三課</td>
+        </tr>
+      </table>
+
+      <h3>1. 遺体発見時所見</h3>
+
+      <p>
+        山中斜面にて発見された遺体について、
+        外表上の異常所見を確認した。
+      </p>
+
+      <p>
+        頸部から頭頂部にかけて、通常の人体には認められない
+        第二の頸部様組織および頭部様組織の形成を確認。
+      </p>
+
+      <img
+        src="/images/case034_pre-autopsy_01.jpg"
+        alt="CASE-034 遺体発見時の状況"
+        class="np-doc-photo"
+      />
+
+      <p class="report-caption">
+        写真1　遺体発見時外表所見
+      </p>
+
+
+      <h3>2. 解剖時所見</h3>
+
+      <p>
+        開頭に先立ち、頸部から頭頂部にかけての外表異常について
+        詳細な観察を実施した。
+      </p>
+
+      <p>
+        新生組織の起点は第七頸椎後方に位置すると推定される。
+        既存の頸部組織との明確な境界は認められず、
+        皮下組織から連続的に形成されたものと考えられる。
+      </p>
+
+      <p>
+        新生部には頸椎、気管、血管および皮膚に相当する組織が形成されており、
+        複数の器官系が既存組織と同様の構造を示している。
+      </p>
+
+      <p>
+        頭蓋部については、既存の頭蓋骨右側頭骨から頭頂骨にかけて
+        広範囲にわたる骨組織の変形および吸収を確認した。
+      </p>
+
+      <p>
+        新生組織は既存の骨組織を単純に圧迫しているのではなく、
+        その一部を置換・吸収しながら成長した可能性がある。
+      </p>
+
+
+      <h3>3. X線検査所見</h3>
+
+      <p>
+        頭部X線撮影を実施した。
+        既存の頭蓋構造に加え、これと連続する新生骨組織を確認。
+      </p>
+
+      <img
+        src="/images/case034_xray_01.jpg"
+        alt="CASE-034 頭部X線写真"
+        class="np-doc-photo"
+      />
+
+      <p class="report-caption">
+        写真2　頭部X線画像
+      </p>
+
+
+      <h3>4. 総合所見</h3>
+
+      <p>
+        本個体に認められた組織形成は、
+        通常の外傷、腫瘍性病変、先天性異常のいずれとも
+        一致しない特徴を有する。
+      </p>
+
+      <p>
+        特に、既存組織との連続性を維持したまま
+        複数の器官構造が新たに形成されている点について、
+        現時点で既知の医学的機序による説明は困難である。
+      </p>
+
+      <p>
+        詳細な血液・組織学的検査については、
+        別資料「CASE-034-B 血液・組織検査報告書」を参照。
+      </p>
+
+
+      <div class="report-sign">
+        <p>検体解析部 第三課</p>
+        <p>担当：第三課 第六班</p>
+        <p>記録日：2013年7月24日</p>
+      </div>
+
+    </div>
+  `,
+  keywords: ['検体解析部第三課-第六班'],
+  asDocument: true,
+},
 ];

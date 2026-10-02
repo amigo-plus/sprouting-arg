@@ -42,7 +42,7 @@ const records = nilecRecords;
   <section class="np-section">
 
     <h2>
-      検索結果
+      検索結果 / 履歴
       <span id="resultCount">全3件</span>
     </h2>
 
@@ -51,7 +51,7 @@ const records = nilecRecords;
       {records.map((record, index) => (
         <a
           class={`record ${index >= 3 ? 'record-extra' : ''}`}
-          href={`/contents/nilec/record/${record.id}`}
+          href={record.url ?? `/contents/nilec/record/${record.id}`}
           data-keywords={record.keywords.join('|')}
         >
 
