@@ -41,7 +41,6 @@ const ANSWERS: Record<string, { surname: string; given: string; symptom?: string
     <h2>検体解析部 第三課 - 第六班 配属名簿</h2>
     <div class="np-box">
       <p>本名簿は未完成のまま保存されています。空欄を埋めてください。氏名は漢字で入力してください。</p>
-      <p class="np-roster-note">※配属順(機構採用順)に記載。</p>
     </div>
   </section>
   <section class="np-section">
@@ -96,12 +95,24 @@ const ANSWERS: Record<string, { surname: string; given: string; symptom?: string
       </div>
     ))}
 
+    <div class="np-roster-actions">
+      <button
+      type="button"
+      id="saveRoster"
+      class="np-db-btn np-roster-save"
+    >
+      入力内容を保存
+    </button>
+
     <button
       type="submit"
       class="np-db-btn np-roster-submit"
     >
       照合する
     </button>
+  </div>
+
+<div id="saveResult" class="np-roster-save-result" hidden></div>
 
   </form>
 
@@ -117,6 +128,49 @@ const ANSWERS: Record<string, { surname: string; given: string; symptom?: string
     return str.trim().replace(/\s+/g, '');
   }
 
+  // ---- ページを開いた時、保存済みの入力を復元する ----
+  function restoreForm() {
+    for (const no of Object.keys(ANSWERS)) {
+      const surnameInput = form.querySelector(`[data-no="${no}"][data-field="surname"]`);
+      const givenInput = form.querySelector(`[data-no="${no}"][data-field="given"]`);
+      const symptomInput = form.querySelector(`[data-no="${no}"][data-field="symptom"]`);
+
+      const savedSurname = localStorage.getItem(`nilec_roster_${no}_surname`);
+      const savedGiven = localStorage.getItem(`nilec_roster_${no}_given`);
+      const savedSymptom = localStorage.getItem(`nilec_roster_${no}_symptom`);
+
+      if (savedSurname && surnameInput) surnameInput.value = savedSurname;
+      if (savedGiven && givenInput) givenInput.value = savedGiven;
+      if (savedSymptom && symptomInput) symptomInput.value = savedSymptom;
+    }
+  }
+  restoreForm();
+
+  const saveButton = document.getElementById('saveRoster');
+  const saveResult = document.getElementById('saveResult');
+
+  saveButton.addEventListener('click', () => {
+    for (const no of Object.keys(ANSWERS)) {
+      const surnameInput = form.querySelector(`[data-no="${no}"][data-field="surname"]`);
+      const givenInput = form.querySelector(`[data-no="${no}"][data-field="given"]`);
+      const symptomInput = form.querySelector(`[data-no="${no}"][data-field="symptom"]`);
+
+      const surname = surnameInput.value.trim();
+      const given = givenInput.value.trim();
+      const symptom = symptomInput ? symptomInput.value.trim() : '';
+
+      // フォーム復元用(項目を分けて保存)
+      localStorage.setItem(`nilec_roster_${no}_surname`, surname);
+      localStorage.setItem(`nilec_roster_${no}_given`, given);
+      if (symptomInput) localStorage.setItem(`nilec_roster_${no}_symptom`, symptom);
+
+      // 他の資料(音声記録など)で職員名表示に使う、結合形式のキーはそのまま維持
+      localStorage.setItem(`nilec_staff_${no}`, `${surname} ${given}`.trim());
+    }
+
+    saveResult.hidden = false;
+    saveResult.textContent = '入力内容を保存しました。';
+  });
   form.addEventListener('submit', (e) => {
     e.preventDefault();
 
@@ -136,6 +190,7 @@ const ANSWERS: Record<string, { surname: string; given: string; symptom?: string
 
       const surname = normalize(surnameInput.value);
       const given = normalize(givenInput.value);
+
 
       const surnameOk =
         surname === ANSWERS[no].surname;

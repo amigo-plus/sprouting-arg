@@ -384,4 +384,57 @@ const { record } = Astro.props;
   margin: 3px 0;
   line-height: 1.5;
 }
+
+.report-note {
+  color: #828689;
+}
+
+.nilec-transcript {
+  margin: 2rem 0;
+  padding: 1.5rem 1.75rem;
+  border: 1px dashed #9a9a9a;
+  background: #f5f5f5;
+  color: #333;
+  font-size: 0.95rem;
+  line-height: 1.8;
+}
+
+.transcript-header {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px dashed #b5b5b5;
+  color: #666;
+  font-size: 0.85rem;
+}
+
+.transcript-header p {
+  margin: 0.2rem 0;
+}
+
+.nilec-transcript .speaker {
+  color: #555;
+  font-weight: 600;
+}
+
+.nilec-transcript .nilec-speaker {
+  color: #555;
+  font-weight: 600;
+}
+
+.nilec-transcript p {
+  margin: 0.8rem 0;
+}
 </style>
+<script>
+  document.querySelectorAll<HTMLElement>('[data-staff]').forEach((element) => {
+  const staffNo = element.dataset.staff;
+  if (!staffNo) return;
+
+  const savedName =
+    localStorage.getItem(`nilec_staff_${staffNo}`);
+
+  if (savedName) {
+    element.textContent = `${savedName}：`;
+  }
+});
+</script>
