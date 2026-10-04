@@ -123,11 +123,6 @@ export const nilecRecords: NilecRecord[] = [
     keywords:[],
   },
 
-
-  // =========================================================
-  // EX：人物名検索でのみ発見できる記録
-  // =========================================================
-
   {
     id: 'I-2013-094',
     title: '情報管理措置に関する報告',
@@ -210,6 +205,85 @@ export const nilecRecords: NilecRecord[] = [
     url: '/contents/nilec/roster'
   },
   {
+    id: 'A-03-06-O1',
+    title: '音声記録:01',
+    category: '検体解析部 第三課',
+    status: '閲覧可能',
+    date: '2013/07/23',
+    body: `
+    <div class="nilec-transcript">
+
+      <div class="transcript-header">
+        <p>【音声記録】</p>
+        <p>記録日時：2013年7月23日</p>
+        <p>記録場所：会議室</p>
+      </div>
+      
+      <p>
+        <span class="nilec-speaker" data-staff="002">
+        職員002：
+        </span>
+        ごめんなさいね、宿舎に戻るとこ呼び止めちゃって。
+      </p>
+      <p>
+        <span class="nilec-speaker" data-staff="001">
+        職員001：
+        </span>
+        全然大丈夫だよ。それで、僕は何をしたら？
+      </p>
+      <p>
+        <span class="nilec-speaker" data-staff="002">
+        職員002：
+        </span>
+        えっと、医療班の方に常備してる薬を追加で出してもらいたくて。ほら、コール以外の連絡はクラスB以上じゃないとできないじゃない？
+      </p>
+      <p>
+        <span class="nilec-speaker" data-staff="002">
+        職員002：
+        </span>
+        いつもは主任に連絡してもらってるんだけど、今日は出張でいないみたいから。
+      </p>
+      <p>
+        <span class="nilec-speaker" data-staff="001">
+        職員001：
+        </span>
+        分かった、明日連絡しておくね。
+      </p>
+      <p>
+        <span class="nilec-speaker" data-staff="002">
+        職員002：
+        </span>
+        それと、その、早乙女くんと美代ちゃんには薬のこと、伝えないでほしくて。……あまり、心配かけたくないから。
+      </p>
+      <p>
+        <span class="nilec-speaker" data-staff="001">
+        職員001：
+        </span>
+        ん、了解。二人には秘密にしとく。僕あまり薬のことは詳しくないんだけど、柳江さんのことを伝えればいいのかな？
+      </p>
+      <p>
+        <span class="nilec-speaker" data-staff="002">
+        職員002：
+        </span>
+        うん、それで大丈夫。引き止めちゃってごめんね。
+      </p>
+      <p>
+        <span class="nilec-speaker" data-staff="001">
+        職員001：
+        </span>
+        いいや気にしないで！おやすみなさい、良い夢を！
+      </p>
+      <p>
+        <span class="nilec-speaker" data-staff="002">
+        職員002：
+        </span>
+        おやすみなさい。
+      </p>
+
+    </div>`,
+    keywords:['会議室'],
+  },
+  {
   id: 'A-CASE-034-A',
   title: '解剖・検査報告書:CASE-034',
   category: '検体解析部 第三課',
@@ -278,6 +352,10 @@ export const nilecRecords: NilecRecord[] = [
     <p>
       新生部の形成に伴い、既存の頸椎および肩部周辺の骨格には配列の変化が認められる。
       ただし、明確な外傷性変化を示す所見は確認されなかった。
+    </p>
+
+    <p>
+      対象の眼球周辺組織についても軽微な圧迫所見が認められ、死亡前の視野に何らかの欠損があった可能性が示唆される。
     </p>
 
 
@@ -544,8 +622,8 @@ export const nilecRecords: NilecRecord[] = [
   keywords: ['事案001'],
   },
   {
-    id: 'A-CASE-034-O1',
-    title: 'CASE-034:音声記録01',
+    id: 'A-03-06-O2',
+    title: '音声記録:02',
     category: '検体解析部 第三課',
     status: '閲覧可能',
     date: '2013/07/24',
@@ -595,7 +673,7 @@ export const nilecRecords: NilecRecord[] = [
       <span class="nilec-speaker" data-staff="001">
         職員001：
         </span>
-        柳江さん、さっきの件なんだけど──
+        柳江さん、会議室の件なんだけど──
       </p>
       <p>
       <span class="nilec-speaker" data-staff="003">
@@ -614,7 +692,7 @@ export const nilecRecords: NilecRecord[] = [
       <span class="nilec-speaker" data-staff="001">
         職員001：
         </span>
-        びっくりしたあ……早乙女くんどうしたの？
+        びっくりしたあ……早乙女くんどうしちゃったの？
       </p>
       <p>
       <span class="nilec-speaker" data-staff="002">
@@ -633,13 +711,141 @@ export const nilecRecords: NilecRecord[] = [
       <span class="nilec-speaker" data-staff="001">
         職員001：
         </span>
-        ……分かった。利用不可になった検体の処理は慎重にしよう。僕は主任を呼んでくる。二人は特殊処理班に連絡を頼むよ。
+        ……分かった。利用不可になった検体の処理は慎重にしよう。僕は主任を呼んでくる。美代さんは特殊処理班に連絡、柳江さんは早乙女くんの様子を見てきて。
       </p>
     </div> `,
     keywords: ['特殊処理班','検査室'],
   },
+  {
+    id: 'A-03-06-O3',
+    title: '音声記録:03',
+    category: '検体解析部 第三課',
+    status: '閲覧可能',
+    date: '2013/07/24',
+    body: `
+    <div class="nilec-transcript">
 
+      <div class="transcript-header">
+        <p>【音声記録】</p>
+        <p>記録日時：2013年7月24日</p>
+        <p>記録場所：宿舎廊下：103号室前</p>
+      </div>
+      <p>［扉をノックする音］</p>
+      <p>
+        <span class="nilec-speaker" data-staff="002">
+        職員002：
+        </span>
+        早乙女くん……大丈夫？
+      </p>
+      <p>［数十秒間の沈黙］</p>
+      <p>
+        <span class="nilec-speaker" data-staff="002">
+        職員002：
+        </span>
+        ……早乙女くん。
+      </p>
+      <p>
+        <span class="nilec-speaker" data-staff="002">
+        職員002：
+        </span>
+        …………
+      </p>
+      <p>［ドアノブが動く音］</p>
+      <p>
+        <span class="nilec-speaker" data-staff="002">
+        職員002：
+        </span>
+        ……！ごめん早乙女くん、入るよ！
+      </p>
+      </div> `,
+      keywords:['宿舎']
+  },
+  {
+    id: 'A-03-06-O4',
+    title: '音声記録:04',
+    category: '検体解析部 第三課',
+    status: '閲覧可能',
+    date: '2013/07/24',
+    body: `
+    <div class="nilec-transcript">
 
+      <div class="transcript-header">
+        <p>【音声記録】</p>
+        <p>記録日時：2013年7月24日</p>
+        <p>記録場所：103号室</p>
+      </div>
+      <p>［駆け込む足音］</p>
+      <p>
+        <span class="nilec-speaker" data-staff="002">
+        職員002：
+        </span>
+        早乙女くんっ！大丈夫！？しっかりして！
+      </p>
+      <p>
+        <span class="nilec-speaker" data-staff="003">
+        職員003：
+        </span>
+        …………っあ……
+      </p>
+      <p>
+        <span class="nilec-speaker" data-staff="002">
+        職員002：
+        </span>
+        ！よかった……体は動かせる？
+      </p>
+      <p>
+        <span class="nilec-speaker" data-staff="003">
+        職員003：
+        </span>
+        ゆ…………、さ…… おれ、…………ひ……りに
+      </p>
+      <p>
+        <span class="nilec-speaker" data-staff="002">
+        職員002：
+        </span>
+        ちょっと失礼……発熱……？今医療班呼んでくるか─
+      </p>
+      <p>［衣服が擦れる音。何かが床に倒れる音］</p>
+      <p>
+        <span class="nilec-speaker" data-staff="003">
+        職員003：
+        </span>
+        俺を、一人にさせてくださいよお！！
+      </p>
+      <p>
+        <span class="nilec-speaker" data-staff="002">
+        職員002：
+        </span>
+        ……っえ…………
+      </p>
+      <p>
+        <span class="nilec-speaker" data-staff="003">
+        職員003：
+        </span>
+        いやだ！！死にたくないっ！！……俺はっ……
+      </p>
+      <p>
+        <span class="nilec-speaker" data-staff="003">
+        職員003：
+        </span>
+        ……あ、ぁ……もう…………俺……最悪…………
+      </p>
+      <p>
+        <span class="nilec-speaker" data-staff="003">
+        職員003：
+        </span>
+        ゆか……さ、……ごめんなさ、……ごめんな、……い……ご……なさい、
+      </p>
+      <p>［鼻を啜る音］</p>
+      <p>
+        <span class="nilec-speaker" data-staff="002">
+        職員002：
+        </span>
+        ……ごめんね、千晃くん。
+      </p>
+      </div> `,
+      keywords:['103号室']
+  },
 
 
   {
