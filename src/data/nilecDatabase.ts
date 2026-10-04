@@ -235,7 +235,7 @@ export const nilecRecords: NilecRecord[] = [
         <span class="nilec-speaker" data-staff="002">
         職員002：
         </span>
-        えっと、医療班の方に常備してる薬を追加で出してもらいたくて。ほら、コール以外の連絡はクラスB以上じゃないとできないじゃない？
+        えっと、薬務班の方に常備してる薬を追加で出してもらいたくて。ほら、コール以外の連絡はクラスB以上じゃないとできないじゃない？
       </p>
       <p>
         <span class="nilec-speaker" data-staff="002">
@@ -810,7 +810,7 @@ export const nilecRecords: NilecRecord[] = [
         <span class="nilec-speaker" data-staff="003">
         職員003：
         </span>
-        俺を、一人にさせてくださいよお！！
+        俺を、一人にさせてくださいよ！！
       </p>
       <p>
         <span class="nilec-speaker" data-staff="002">
@@ -834,7 +834,7 @@ export const nilecRecords: NilecRecord[] = [
         <span class="nilec-speaker" data-staff="003">
         職員003：
         </span>
-        ゆか……さ、……ごめんなさ、……ごめんな、……い……ご……なさい、
+        ゆか……ぇ、……ごめんなさ、……ごめんな、……い……ご……なさい、
       </p>
       <p>［鼻を啜る音］</p>
       <p>
@@ -845,6 +845,136 @@ export const nilecRecords: NilecRecord[] = [
       </p>
       </div> `,
       keywords:['103号室']
+  },
+  {
+    id: 'A-03-06-K-003-1',
+    title: '職員003:医療経過記録001',
+    category: '対策開発部 第三課',
+    status: '閲覧可能',
+    date: '2013/07/24',
+    body: `
+      <div class="medical-record">
+        <div class="report-title">
+          <h2>職員003：医療経過記録001</h2>
+          <p>A-03-06-K-003-1</p>
+        </div>
+
+      <table class="medical-info-table">
+        <tr>
+          <th>記録日時</th>
+          <td>2013年7月24日</td>
+          <th>記録場所</th>
+          <td>103号室</td>
+        </tr>
+        <tr>
+          <th>体温</th>
+          <td>37.9℃</td>
+          <th>身長</th>
+          <td>173.6cm</td>
+        </tr>
+        <tr>
+          <th>体重</th>
+          <td>63.7kg</td>
+          <th>担当</th>
+          <td>菊名</td>
+        </tr>
+      </table>
+
+      <h3>検身記録</h3>
+
+      <div class="nilec-transcript">
+      <p>［音声記録を開始］</p>
+
+      <p>
+        <span class="nilec-speaker" data-staff="005">
+        職員005：
+        </span>
+        入るぞ、早乙女。
+      </p>
+      <p>
+        <span class="nilec-speaker" data-staff="003">
+        職員003：
+        </span>
+        …………主任。
+      </p>
+      <p>
+        <span class="nilec-speaker" data-staff="005">
+        職員005：
+        </span>
+        どうだ、落ち着いたか？
+      </p>
+      <p>
+        <span class="nilec-speaker" data-staff="003">
+        職員003：
+        </span>
+        ……すみませんでした、主任。俺、柳江さんに…………
+      </p>
+      <p>
+        <span class="nilec-speaker" data-staff="005">
+        職員005：
+        </span>
+        柳江は大丈夫だ。気にするな。
+      </p>
+      <p>
+        <span class="nilec-speaker" data-staff="003">
+        職員003：
+        </span>
+        でも、俺………………
+      </p>
+      <p>
+        <span class="nilec-speaker" data-staff="005">
+        職員005：
+        </span>
+        今はお互い時間を空けるべきだ。お前の体調が戻ったら謝るなりなんなりすればいい……調子はどうだ？
+      </p>
+      <p>
+        <span class="nilec-speaker" data-staff="003">
+        職員003：
+        </span>
+        ……調子……倦怠感と発熱……ぐらいですかね……風邪引いたときみたいな……あ、あと……身体が痒いんです。
+      </p>
+      <p>
+        <span class="nilec-speaker" data-staff="005">
+        職員005：
+        </span>
+        どこが痒む？
+      </p>
+      <p>
+        <span class="nilec-speaker" data-staff="003">
+        職員003：
+        </span>
+        うーん……左半身？……ですかね、…………ちょっと、範囲が広くて、……よく、わからない…………
+      </p>
+      <p>［体を強く掻く音］</p>
+      <p>
+        <span class="nilec-speaker" data-staff="005">
+        職員005：
+        </span>
+        あまり強く掻くな、血が滲んでるぞ。解熱剤と鎮痒剤貰ってきてやる。
+      </p>
+      <p>
+        <span class="nilec-speaker" data-staff="003">
+        職員003：
+        </span>
+        ……すみません。
+      </p>
+
+      <p>［音声記録終了］</p>
+      </div>
+
+      <div class="record-symptom">
+        <p class="record-symptom-title">症状</p>
+        <p>発熱、倦怠感、<del>精神錯乱</del>、左半身の痒み</p>
+      </div>
+
+      <div class="record-order">
+        <p>&gt; 対策開発部第三課薬務班に解熱剤、鎮痒剤、予備の鎮静剤を要求する。</p>
+        <p class="record-order-strike">&gt; 対策開発部第三課医療班に診断を要求。念の為宿舎103号室周辺を立ち入り禁止区域として設定。</p>
+        <p class="record-order-add">追記：医療班による診断によりウィルス性ではないとのこと。一般立ち入り禁止区域は解除。</p>
+      </div>
+
+    </div>`,
+    keywords: ['医療班'],
   },
 
 
